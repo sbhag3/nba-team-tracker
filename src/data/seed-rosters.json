@@ -1,0 +1,3060 @@
+{
+  "asOf": "2026-06-28",
+  "rosters": {
+    "ATL": [
+      {
+        "id": "4278039",
+        "fullName": "Nickeil Alexander-Walker",
+        "salary": 15161800
+      },
+      {
+        "id": "4065673",
+        "fullName": "Tony Bradley",
+        "salary": null
+      },
+      {
+        "id": "4869342",
+        "fullName": "Dyson Daniels",
+        "salary": 7707709
+      },
+      {
+        "id": "4431941",
+        "fullName": "RayJ Dennis",
+        "salary": 0
+      },
+      {
+        "id": "5106262",
+        "fullName": "Zuby Ejiofor",
+        "salary": null
+      },
+      {
+        "id": "5149077",
+        "fullName": "Kingston Flemings",
+        "salary": null
+      },
+      {
+        "id": "4585618",
+        "fullName": "Keshon Gilbert",
+        "salary": null
+      },
+      {
+        "id": "4712863",
+        "fullName": "Mouhamed Gueye",
+        "salary": 2221677
+      },
+      {
+        "id": "2990984",
+        "fullName": "Buddy Hield",
+        "salary": 9219512
+      },
+      {
+        "id": "4433623",
+        "fullName": "Caleb Houstan",
+        "salary": 699440
+      },
+      {
+        "id": "4701230",
+        "fullName": "Jalen Johnson",
+        "salary": 30000000
+      },
+      {
+        "id": "4280151",
+        "fullName": "Corey Kispert",
+        "salary": 13975000
+      },
+      {
+        "id": "4431778",
+        "fullName": "Christian Koloko",
+        "salary": 0
+      },
+      {
+        "id": "4433247",
+        "fullName": "Jonathan Kuminga",
+        "salary": 22500000
+      },
+      {
+        "id": "3146557",
+        "fullName": "Jock Landale",
+        "salary": 2296274
+      },
+      {
+        "id": "2490149",
+        "fullName": "CJ McCollum",
+        "salary": 30666666
+      },
+      {
+        "id": "4873201",
+        "fullName": "Asa Newell",
+        "salary": 3237480
+      },
+      {
+        "id": "4431680",
+        "fullName": "Onyeka Okongwu",
+        "salary": 15000000
+      },
+      {
+        "id": "5211175",
+        "fullName": "Zaccharie Risacher",
+        "salary": 13197720
+      },
+      {
+        "id": "5105571",
+        "fullName": "Henri Veesaar",
+        "salary": null
+      },
+      {
+        "id": "3137259",
+        "fullName": "Gabe Vincent",
+        "salary": 11500000
+      },
+      {
+        "id": "4279118",
+        "fullName": "Keaton Wallace",
+        "salary": 2296274
+      }
+    ],
+    "BOS": [
+      {
+        "id": "4397885",
+        "fullName": "Dalano Banton",
+        "salary": null
+      },
+      {
+        "id": "3917376",
+        "fullName": "Jaylen Brown",
+        "salary": 53142264
+      },
+      {
+        "id": "5142621",
+        "fullName": "Chris Cenac Jr.",
+        "salary": null
+      },
+      {
+        "id": "4277951",
+        "fullName": "Luka Garza",
+        "salary": 2461463
+      },
+      {
+        "id": "5175647",
+        "fullName": "Hugo Gonzalez",
+        "salary": 2783880
+      },
+      {
+        "id": "4397251",
+        "fullName": "Ron Harper Jr.",
+        "salary": 0
+      },
+      {
+        "id": "4065804",
+        "fullName": "Sam Hauser",
+        "salary": 10044643
+      },
+      {
+        "id": "5106283",
+        "fullName": "Dillon Mitchell",
+        "salary": null
+      },
+      {
+        "id": "4066354",
+        "fullName": "Payton Pritchard",
+        "salary": 7232143
+      },
+      {
+        "id": "4397424",
+        "fullName": "Neemias Queta",
+        "salary": 2349578
+      },
+      {
+        "id": "4593841",
+        "fullName": "Baylor Scheierman",
+        "salary": 2619000
+      },
+      {
+        "id": "4701992",
+        "fullName": "Max Shulga",
+        "salary": 0
+      },
+      {
+        "id": "4065648",
+        "fullName": "Jayson Tatum",
+        "salary": 54126450
+      },
+      {
+        "id": "4593043",
+        "fullName": "John Tonje",
+        "salary": 0
+      },
+      {
+        "id": "6478",
+        "fullName": "Nikola Vucevic",
+        "salary": 21481481
+      },
+      {
+        "id": "4683689",
+        "fullName": "Jordan Walsh",
+        "salary": 2221677
+      },
+      {
+        "id": "3078576",
+        "fullName": "Derrick White",
+        "salary": 28100001
+      },
+      {
+        "id": "4702745",
+        "fullName": "Amari Williams",
+        "salary": 490128
+      }
+    ],
+    "BKN": [
+      {
+        "id": "4397018",
+        "fullName": "Ochai Agbaji",
+        "salary": 6383525
+      },
+      {
+        "id": "5105626",
+        "fullName": "Tyler Bilodeau",
+        "salary": null
+      },
+      {
+        "id": "5101761",
+        "fullName": "Mikel Brown Jr.",
+        "salary": null
+      },
+      {
+        "id": "4712896",
+        "fullName": "Noah Clowney",
+        "salary": 3398640
+      },
+      {
+        "id": "5175643",
+        "fullName": "Egor Demin",
+        "salary": 6889200
+      },
+      {
+        "id": "4432887",
+        "fullName": "Tyson Etienne",
+        "salary": 0
+      },
+      {
+        "id": "4870564",
+        "fullName": "Joshua Jefferson",
+        "salary": null
+      },
+      {
+        "id": "5174655",
+        "fullName": "Chaney Johnson",
+        "salary": 0
+      },
+      {
+        "id": "4432821",
+        "fullName": "E.J. Liddell",
+        "salary": 0
+      },
+      {
+        "id": "3907823",
+        "fullName": "Terance Mann",
+        "salary": 15500000
+      },
+      {
+        "id": "4687718",
+        "fullName": "Josh Minott",
+        "salary": 2378870
+      },
+      {
+        "id": "4278104",
+        "fullName": "Michael Porter Jr.",
+        "salary": 38333050
+      },
+      {
+        "id": "5037873",
+        "fullName": "Drake Powell",
+        "salary": 3372240
+      },
+      {
+        "id": "3064514",
+        "fullName": "Julius Randle",
+        "salary": 30864198
+      },
+      {
+        "id": "5242502",
+        "fullName": "Ben Saraf",
+        "salary": 2884560
+      },
+      {
+        "id": "3934620",
+        "fullName": "Trevon Scott",
+        "salary": null
+      },
+      {
+        "id": "4432194",
+        "fullName": "Day'Ron Sharpe",
+        "salary": 6250000
+      },
+      {
+        "id": "4397784",
+        "fullName": "Malachi Smith",
+        "salary": null
+      },
+      {
+        "id": "5279130",
+        "fullName": "Nolan Traore",
+        "salary": 3811560
+      },
+      {
+        "id": "4433137",
+        "fullName": "Ziaire Williams",
+        "salary": 6250000
+      },
+      {
+        "id": "4431714",
+        "fullName": "Jalen Wilson",
+        "salary": 2221677
+      },
+      {
+        "id": "5107173",
+        "fullName": "Danny Wolf",
+        "salary": 2801280
+      }
+    ],
+    "CHA": [
+      {
+        "id": "3135045",
+        "fullName": "Grayson Allen",
+        "salary": 16875000
+      },
+      {
+        "id": "5060701",
+        "fullName": "Christian Anderson",
+        "salary": null
+      },
+      {
+        "id": "2578239",
+        "fullName": "Pat Connaughton",
+        "salary": 1315814
+      },
+      {
+        "id": "4433249",
+        "fullName": "Moussa Diabate",
+        "salary": 2270735
+      },
+      {
+        "id": "4597865",
+        "fullName": "Tosan Evbuomwan",
+        "salary": 0
+      },
+      {
+        "id": "4701225",
+        "fullName": "PJ Hall",
+        "salary": 0
+      },
+      {
+        "id": "4602025",
+        "fullName": "Sion James",
+        "salary": 2296274
+      },
+      {
+        "id": "4576060",
+        "fullName": "Ryan Kalkbrenner",
+        "salary": 2296274
+      },
+      {
+        "id": "5061575",
+        "fullName": "Kon Knueppel",
+        "salary": 10015680
+      },
+      {
+        "id": "4432819",
+        "fullName": "Tre Mann",
+        "salary": 8000000
+      },
+      {
+        "id": "5239590",
+        "fullName": "Liam McNeeley",
+        "salary": 2763960
+      },
+      {
+        "id": "4433287",
+        "fullName": "Brandon Miller",
+        "salary": 11968800
+      },
+      {
+        "id": "2583632",
+        "fullName": "Royce O'Neale",
+        "salary": 10125000
+      },
+      {
+        "id": "4592686",
+        "fullName": "Antonio Reeves",
+        "salary": 1955377
+      },
+      {
+        "id": "4396971",
+        "fullName": "Naz Reid",
+        "salary": 21551724
+      },
+      {
+        "id": "5211176",
+        "fullName": "Tidjane Salaun",
+        "salary": 7863240
+      },
+      {
+        "id": "5281370",
+        "fullName": "Hannes Steinbach",
+        "salary": null
+      },
+      {
+        "id": "4277964",
+        "fullName": "Xavier Tillman",
+        "salary": 2546675
+      },
+      {
+        "id": "4395651",
+        "fullName": "Coby White",
+        "salary": 12888889
+      },
+      {
+        "id": "4066218",
+        "fullName": "Grant Williams",
+        "salary": 13645500
+      }
+    ],
+    "CHI": [
+      {
+        "id": "4711294",
+        "fullName": "Matas Buzelis",
+        "salary": 5455560
+      },
+      {
+        "id": "4278067",
+        "fullName": "Nic Claxton",
+        "salary": 25352272
+      },
+      {
+        "id": "4066650",
+        "fullName": "Zach Collins",
+        "salary": 18080496
+      },
+      {
+        "id": "4684275",
+        "fullName": "Rob Dillingham",
+        "salary": 6576120
+      },
+      {
+        "id": "5242496",
+        "fullName": "Noa Essengue",
+        "salary": 5429520
+      },
+      {
+        "id": "4871145",
+        "fullName": "Josh Giddey",
+        "salary": 25000000
+      },
+      {
+        "id": "4592933",
+        "fullName": "Mouhamadou Gueye",
+        "salary": null
+      },
+      {
+        "id": "4697268",
+        "fullName": "Kam Jones",
+        "salary": 1272870
+      },
+      {
+        "id": "4395626",
+        "fullName": "Tre Jones",
+        "salary": 8000000
+      },
+      {
+        "id": "5159895",
+        "fullName": "Yuki Kawamura",
+        "salary": 0
+      },
+      {
+        "id": "4397071",
+        "fullName": "Mac McClung",
+        "salary": 0
+      },
+      {
+        "id": "5044385",
+        "fullName": "Leonard Miller",
+        "salary": 2221677
+      },
+      {
+        "id": "4432822",
+        "fullName": "Isaac Okoro",
+        "salary": 11000000
+      },
+      {
+        "id": "5107156",
+        "fullName": "Lachlan Olbrich",
+        "salary": 0
+      },
+      {
+        "id": "4278076",
+        "fullName": "Nick Richards",
+        "salary": 5000000
+      },
+      {
+        "id": "4277811",
+        "fullName": "Collin Sexton",
+        "salary": 19170000
+      },
+      {
+        "id": "4351851",
+        "fullName": "Anfernee Simons",
+        "salary": 27678571
+      },
+      {
+        "id": "4397189",
+        "fullName": "Jalen Smith",
+        "salary": 9000000
+      },
+      {
+        "id": "4848625",
+        "fullName": "Dailyn Swain",
+        "salary": null
+      },
+      {
+        "id": "4431687",
+        "fullName": "Patrick Williams",
+        "salary": 18000000
+      },
+      {
+        "id": "5095151",
+        "fullName": "Caleb Wilson",
+        "salary": null
+      },
+      {
+        "id": "4017844",
+        "fullName": "Guerschon Yabusele",
+        "salary": 5500000
+      }
+    ],
+    "CLE": [
+      {
+        "id": "4066328",
+        "fullName": "Jarrett Allen",
+        "salary": 20000000
+      },
+      {
+        "id": "3934723",
+        "fullName": "Thomas Bryant",
+        "salary": 2296274
+      },
+      {
+        "id": "4702177",
+        "fullName": "Keon Ellis",
+        "salary": 2301587
+      },
+      {
+        "id": "4431734",
+        "fullName": "Tristan Enaruna",
+        "salary": 0
+      },
+      {
+        "id": "3992",
+        "fullName": "James Harden",
+        "salary": 39446090
+      },
+      {
+        "id": "4066757",
+        "fullName": "Sam Merrill",
+        "salary": 8482143
+      },
+      {
+        "id": "5177362",
+        "fullName": "Riley Minix",
+        "salary": 0
+      },
+      {
+        "id": "3908809",
+        "fullName": "Donovan Mitchell",
+        "salary": 46394100
+      },
+      {
+        "id": "4432158",
+        "fullName": "Evan Mobley",
+        "salary": 46394100
+      },
+      {
+        "id": "2580365",
+        "fullName": "Larry Nance Jr.",
+        "salary": 2296274
+      },
+      {
+        "id": "4701233",
+        "fullName": "Craig Porter Jr.",
+        "salary": 2221677
+      },
+      {
+        "id": "5023693",
+        "fullName": "Tyrese Proctor",
+        "salary": 1272870
+      },
+      {
+        "id": "4278046",
+        "fullName": "Olivier Sarr",
+        "salary": 0
+      },
+      {
+        "id": "3032979",
+        "fullName": "Dennis Schroder",
+        "salary": 14104000
+      },
+      {
+        "id": "4065778",
+        "fullName": "Max Strus",
+        "salary": 15936452
+      },
+      {
+        "id": "5041951",
+        "fullName": "Meleek Thomas",
+        "salary": null
+      },
+      {
+        "id": "5106268",
+        "fullName": "Nae'Qwan Tomlin",
+        "salary": 718150
+      },
+      {
+        "id": "4683747",
+        "fullName": "Jaylon Tyson",
+        "salary": 3492480
+      },
+      {
+        "id": "3912848",
+        "fullName": "Dean Wade",
+        "salary": 6623456
+      }
+    ],
+    "DAL": [
+      {
+        "id": "4277848",
+        "fullName": "Marvin Bagley III",
+        "salary": 2296274
+      },
+      {
+        "id": "4432582",
+        "fullName": "Max Christie",
+        "salary": 7714286
+      },
+      {
+        "id": "4701208",
+        "fullName": "Moussa Cisse",
+        "salary": 0
+      },
+      {
+        "id": "5279129",
+        "fullName": "Sergio de Larrea",
+        "salary": null
+      },
+      {
+        "id": "5041939",
+        "fullName": "Cooper Flagg",
+        "salary": 14386320
+      },
+      {
+        "id": "4278049",
+        "fullName": "Daniel Gafford",
+        "salary": 14386320
+      },
+      {
+        "id": "6442",
+        "fullName": "Kyrie Irving",
+        "salary": 36566002
+      },
+      {
+        "id": "5358755",
+        "fullName": "Vsevolod Ishchenko",
+        "salary": null
+      },
+      {
+        "id": "5170947",
+        "fullName": "AJ Johnson",
+        "salary": 3090480
+      },
+      {
+        "id": "4873153",
+        "fullName": "Morez Johnson Jr.",
+        "salary": null
+      },
+      {
+        "id": "5106040",
+        "fullName": "Tobi Lawal",
+        "salary": null
+      },
+      {
+        "id": "4683688",
+        "fullName": "Dereck Lively II",
+        "salary": 5253360
+      },
+      {
+        "id": "4278594",
+        "fullName": "Naji Marshall",
+        "salary": 9000000
+      },
+      {
+        "id": "3138160",
+        "fullName": "Caleb Martin",
+        "salary": 9594044
+      },
+      {
+        "id": "6609",
+        "fullName": "Khris Middleton",
+        "salary": 33926296
+      },
+      {
+        "id": "4433629",
+        "fullName": "Ryan Nembhard",
+        "salary": 321875
+      },
+      {
+        "id": "4898238",
+        "fullName": "John Poulakidas",
+        "salary": 0
+      },
+      {
+        "id": "2531367",
+        "fullName": "Dwight Powell",
+        "salary": 4000000
+      },
+      {
+        "id": "5167876",
+        "fullName": "Tyler Smith",
+        "salary": 1955377
+      },
+      {
+        "id": "6475",
+        "fullName": "Klay Thompson",
+        "salary": 16666667
+      },
+      {
+        "id": "4278078",
+        "fullName": "P.J. Washington",
+        "salary": 14152174
+      },
+      {
+        "id": "4397040",
+        "fullName": "Brandon Williams",
+        "salary": 2270735
+      }
+    ],
+    "DEN": [
+      {
+        "id": "4431767",
+        "fullName": "Christian Braun",
+        "salary": 4921797
+      },
+      {
+        "id": "4698719",
+        "fullName": "Trevon Brazile",
+        "salary": null
+      },
+      {
+        "id": "4065670",
+        "fullName": "Bruce Brown",
+        "salary": 2296274
+      },
+      {
+        "id": "3064290",
+        "fullName": "Aaron Gordon",
+        "salary": 22841455
+      },
+      {
+        "id": "2528210",
+        "fullName": "Tim Hardaway Jr.",
+        "salary": 2296274
+      },
+      {
+        "id": "4433607",
+        "fullName": "DaRon Holmes II",
+        "salary": 3218760
+      },
+      {
+        "id": "4565698",
+        "fullName": "Bryce Hopkins",
+        "salary": null
+      },
+      {
+        "id": "3138196",
+        "fullName": "Cameron Johnson",
+        "salary": 21057065
+      },
+      {
+        "id": "3112335",
+        "fullName": "Nikola Jokic",
+        "salary": 55224526
+      },
+      {
+        "id": "4898369",
+        "fullName": "Curtis Jones",
+        "salary": 0
+      },
+      {
+        "id": "4592427",
+        "fullName": "Spencer Jones",
+        "salary": 623967
+      },
+      {
+        "id": "3135046",
+        "fullName": "Tyus Jones",
+        "salary": 514682
+      },
+      {
+        "id": "3936299",
+        "fullName": "Jamal Murray",
+        "salary": 46394100
+      },
+      {
+        "id": "4431690",
+        "fullName": "Zeke Nnaji",
+        "salary": 8177778
+      },
+      {
+        "id": "4398390",
+        "fullName": "Jalen Pickett",
+        "salary": 2221677
+      },
+      {
+        "id": "4593041",
+        "fullName": "David Roddy",
+        "salary": 0
+      },
+      {
+        "id": "4683834",
+        "fullName": "KJ Simpson",
+        "salary": 0
+      },
+      {
+        "id": "4432181",
+        "fullName": "Julian Strawther",
+        "salary": 2674200
+      },
+      {
+        "id": "6477",
+        "fullName": "Jonas Valanciunas",
+        "salary": 10395000
+      },
+      {
+        "id": "4576087",
+        "fullName": "Peyton Watson",
+        "salary": 4356476
+      }
+    ],
+    "DET": [
+      {
+        "id": "4432166",
+        "fullName": "Cade Cunningham",
+        "salary": 46394100
+      },
+      {
+        "id": "4433621",
+        "fullName": "Jalen Duren",
+        "salary": 6483144
+      },
+      {
+        "id": "2596112",
+        "fullName": "Javonte Green",
+        "salary": 2296274
+      },
+      {
+        "id": "6440",
+        "fullName": "Tobias Harris",
+        "salary": 26634146
+      },
+      {
+        "id": "4683771",
+        "fullName": "Ronald Holland II",
+        "salary": 8657280
+      },
+      {
+        "id": "4066372",
+        "fullName": "Kevin Huerter",
+        "salary": 17991071
+      },
+      {
+        "id": "5107199",
+        "fullName": "Daniss Jenkins",
+        "salary": 3809524
+      },
+      {
+        "id": "5107818",
+        "fullName": "Isaac Jones",
+        "salary": 1955377
+      },
+      {
+        "id": "4700852",
+        "fullName": "Chaz Lanier",
+        "salary": 1372870
+      },
+      {
+        "id": "2991043",
+        "fullName": "Caris LeVert",
+        "salary": 14104000
+      },
+      {
+        "id": "4592187",
+        "fullName": "Wendell Moore Jr.",
+        "salary": 0
+      },
+      {
+        "id": "5258459",
+        "fullName": "Ebuka Okorie",
+        "salary": null
+      },
+      {
+        "id": "5037878",
+        "fullName": "Ugonna Onyenso",
+        "salary": null
+      },
+      {
+        "id": "4278562",
+        "fullName": "Paul Reed",
+        "salary": 5335894
+      },
+      {
+        "id": "3157465",
+        "fullName": "Duncan Robinson",
+        "salary": 16834692
+      },
+      {
+        "id": "4432107",
+        "fullName": "Marcus Sasser",
+        "salary": 2886720
+      },
+      {
+        "id": "4397882",
+        "fullName": "Tolu Smith",
+        "salary": 0
+      },
+      {
+        "id": "4684742",
+        "fullName": "Ausar Thompson",
+        "salary": 8775000
+      }
+    ],
+    "GSW": [
+      {
+        "id": "4397886",
+        "fullName": "Charles Bassey",
+        "salary": null
+      },
+      {
+        "id": "6430",
+        "fullName": "Jimmy Butler III",
+        "salary": 54126450
+      },
+      {
+        "id": "4433149",
+        "fullName": "LJ Cryer",
+        "salary": 0
+      },
+      {
+        "id": "2326307",
+        "fullName": "Seth Curry",
+        "salary": 1755198
+      },
+      {
+        "id": "3975",
+        "fullName": "Stephen Curry",
+        "salary": 59606817
+      },
+      {
+        "id": "6589",
+        "fullName": "Draymond Green",
+        "salary": 25892857
+      },
+      {
+        "id": "3213",
+        "fullName": "Al Horford",
+        "salary": 5685000
+      },
+      {
+        "id": "5108969",
+        "fullName": "Lajae Jones",
+        "salary": null
+      },
+      {
+        "id": "5175737",
+        "fullName": "Yaxel Lendeborg",
+        "salary": null
+      },
+      {
+        "id": "4897449",
+        "fullName": "Malevy Leons",
+        "salary": 0
+      },
+      {
+        "id": "4066436",
+        "fullName": "De'Anthony Melton",
+        "salary": 3080921
+      },
+      {
+        "id": "4432171",
+        "fullName": "Moses Moody",
+        "salary": 11574074
+      },
+      {
+        "id": "3134903",
+        "fullName": "Gary Payton II",
+        "salary": 2296274
+      },
+      {
+        "id": "4709138",
+        "fullName": "Brandin Podziemski",
+        "salary": 3687960
+      },
+      {
+        "id": "3102531",
+        "fullName": "Kristaps Porzingis",
+        "salary": 30731707
+      },
+      {
+        "id": "4593016",
+        "fullName": "Quinten Post",
+        "salary": 1935377
+      },
+      {
+        "id": "4897262",
+        "fullName": "Will Richard",
+        "salary": 1272870
+      },
+      {
+        "id": "4997536",
+        "fullName": "Gui Santos",
+        "salary": 2221677
+      },
+      {
+        "id": "4592714",
+        "fullName": "Pat Spencer",
+        "salary": 857804
+      },
+      {
+        "id": "4397821",
+        "fullName": "Nate Williams",
+        "salary": 0
+      },
+      {
+        "id": "3074213",
+        "fullName": "Omer Yurtseven",
+        "salary": null
+      }
+    ],
+    "HOU": [
+      {
+        "id": "2991235",
+        "fullName": "Steven Adams",
+        "salary": 14130434
+      },
+      {
+        "id": "3102529",
+        "fullName": "Clint Capela",
+        "salary": 6700000
+      },
+      {
+        "id": "4592857",
+        "fullName": "Isaiah Crawford",
+        "salary": 0
+      },
+      {
+        "id": "4576085",
+        "fullName": "JD Davison",
+        "salary": 2270735
+      },
+      {
+        "id": "3202",
+        "fullName": "Kevin Durant",
+        "salary": 54708609
+      },
+      {
+        "id": "4433192",
+        "fullName": "Tari Eason",
+        "salary": 5675766
+      },
+      {
+        "id": "2578185",
+        "fullName": "Dorian Finney-Smith",
+        "salary": 12700000
+      },
+      {
+        "id": "3209",
+        "fullName": "Jeff Green",
+        "salary": 2296274
+      },
+      {
+        "id": "3922230",
+        "fullName": "Aaron Holiday",
+        "salary": 0
+      },
+      {
+        "id": "4592965",
+        "fullName": "Tristen Newton",
+        "salary": 0
+      },
+      {
+        "id": "4065663",
+        "fullName": "Josh Okogie",
+        "salary": 7750000
+      },
+      {
+        "id": "4871144",
+        "fullName": "Alperen Sengun",
+        "salary": 33944954
+      },
+      {
+        "id": "4711272",
+        "fullName": "Reed Sheppard",
+        "salary": 10603560
+      },
+      {
+        "id": "4432639",
+        "fullName": "Jabari Smith Jr.",
+        "salary": 12350392
+      },
+      {
+        "id": "3136777",
+        "fullName": "Jae'Sean Tate",
+        "salary": 2296274
+      },
+      {
+        "id": "4684740",
+        "fullName": "Amen Thompson",
+        "salary": 9690600
+      },
+      {
+        "id": "5105837",
+        "fullName": "Bruce Thornton",
+        "salary": null
+      },
+      {
+        "id": "2991230",
+        "fullName": "Fred VanVleet",
+        "salary": 25000000
+      }
+    ],
+    "IND": [
+      {
+        "id": "4431752",
+        "fullName": "Kobe Brown",
+        "salary": 2654880
+      },
+      {
+        "id": "5157066",
+        "fullName": "Johnny Furphy",
+        "salary": 1955377
+      },
+      {
+        "id": "4396993",
+        "fullName": "Tyrese Haliburton",
+        "salary": 45550512
+      },
+      {
+        "id": "4065731",
+        "fullName": "Jay Huff",
+        "salary": 2349578
+      },
+      {
+        "id": "4592829",
+        "fullName": "Quenton Jackson",
+        "salary": 601553
+      },
+      {
+        "id": "2530530",
+        "fullName": "T.J. McConnell",
+        "salary": 10200000
+      },
+      {
+        "id": "4395712",
+        "fullName": "Andrew Nembhard",
+        "salary": 18102000
+      },
+      {
+        "id": "4396909",
+        "fullName": "Aaron Nesmith",
+        "salary": 11000000
+      },
+      {
+        "id": "4703421",
+        "fullName": "Taelon Peter",
+        "salary": 0
+      },
+      {
+        "id": "4066399",
+        "fullName": "Micah Potter",
+        "salary": 1527805
+      },
+      {
+        "id": "4433076",
+        "fullName": "Ben Sheppard",
+        "salary": 2790720
+      },
+      {
+        "id": "3149673",
+        "fullName": "Pascal Siakam",
+        "salary": 45550512
+      },
+      {
+        "id": "4398207",
+        "fullName": "Jalen Slawson",
+        "salary": 0
+      },
+      {
+        "id": "5105854",
+        "fullName": "Braden Smith",
+        "salary": null
+      },
+      {
+        "id": "4278516",
+        "fullName": "Ethan Thompson",
+        "salary": 0
+      },
+      {
+        "id": "4278355",
+        "fullName": "Obi Toppin",
+        "salary": 14000000
+      },
+      {
+        "id": "5106060",
+        "fullName": "Jarace Walker",
+        "salary": 6665520
+      },
+      {
+        "id": "4017837",
+        "fullName": "Ivica Zubac",
+        "salary": 18102000
+      }
+    ],
+    "LAC": [
+      {
+        "id": "3416",
+        "fullName": "Nicolas Batum",
+        "salary": 5601600
+      },
+      {
+        "id": "6580",
+        "fullName": "Bradley Beal",
+        "salary": 5354000
+      },
+      {
+        "id": "3037789",
+        "fullName": "Bogdan Bogdanovic",
+        "salary": 16020000
+      },
+      {
+        "id": "4845363",
+        "fullName": "Cam Christie",
+        "salary": 1955377
+      },
+      {
+        "id": "3908845",
+        "fullName": "John Collins",
+        "salary": 26580000
+      },
+      {
+        "id": "2991139",
+        "fullName": "Kris Dunn",
+        "salary": 5426000
+      },
+      {
+        "id": "4396907",
+        "fullName": "Darius Garland",
+        "salary": 39446090
+      },
+      {
+        "id": "4432170",
+        "fullName": "Isaiah Jackson",
+        "salary": 7000000
+      },
+      {
+        "id": "3936099",
+        "fullName": "Derrick Jones Jr.",
+        "salary": 10000000
+      },
+      {
+        "id": "6450",
+        "fullName": "Kawhi Leonard",
+        "salary": 50000000
+      },
+      {
+        "id": "3448",
+        "fullName": "Brook Lopez",
+        "salary": 8750000
+      },
+      {
+        "id": "5105832",
+        "fullName": "Nick Martinelli",
+        "salary": null
+      },
+      {
+        "id": "4683634",
+        "fullName": "Bennedict Mathurin",
+        "salary": 9187573
+      },
+      {
+        "id": "5075626",
+        "fullName": "Baba Miller",
+        "salary": null
+      },
+      {
+        "id": "4396818",
+        "fullName": "Jordan Miller",
+        "salary": 712637
+      },
+      {
+        "id": "5363895",
+        "fullName": "Narcisse Ngoy",
+        "salary": null
+      },
+      {
+        "id": "5108024",
+        "fullName": "Yanic Konan Niederhauser",
+        "salary": 2743800
+      },
+      {
+        "id": "4702134",
+        "fullName": "Norchad Omier",
+        "salary": 0
+      },
+      {
+        "id": "4709131",
+        "fullName": "Sean Pedulla",
+        "salary": 0
+      },
+      {
+        "id": "4702352",
+        "fullName": "Kobe Sanders",
+        "salary": 0
+      },
+      {
+        "id": "5254165",
+        "fullName": "Keaton Wagler",
+        "salary": null
+      },
+      {
+        "id": "4683749",
+        "fullName": "TyTy Washington Jr.",
+        "salary": 0
+      }
+    ],
+    "LAL": [
+      {
+        "id": "4278129",
+        "fullName": "Deandre Ayton",
+        "salary": 8104000
+      },
+      {
+        "id": "5113969",
+        "fullName": "Cameron Carr",
+        "salary": null
+      },
+      {
+        "id": "3945274",
+        "fullName": "Luka Doncic",
+        "salary": 54126450
+      },
+      {
+        "id": "4066648",
+        "fullName": "Rui Hachimura",
+        "salary": 18259259
+      },
+      {
+        "id": "4397077",
+        "fullName": "Jaxson Hayes",
+        "salary": 3449324
+      },
+      {
+        "id": "4683774",
+        "fullName": "Bronny James",
+        "salary": 1955377
+      },
+      {
+        "id": "1966",
+        "fullName": "LeBron James",
+        "salary": 52627153
+      },
+      {
+        "id": "3913174",
+        "fullName": "Luke Kennard",
+        "salary": 11000000
+      },
+      {
+        "id": "2960236",
+        "fullName": "Maxi Kleber",
+        "salary": 11000000
+      },
+      {
+        "id": "4897943",
+        "fullName": "Dalton Knecht",
+        "salary": 4010160
+      },
+      {
+        "id": "4592691",
+        "fullName": "Jake LaRavia",
+        "salary": 6000000
+      },
+      {
+        "id": "4702972",
+        "fullName": "Chris Manon",
+        "salary": 0
+      },
+      {
+        "id": "5114350",
+        "fullName": "AK Okereke",
+        "salary": null
+      },
+      {
+        "id": "4066457",
+        "fullName": "Austin Reaves",
+        "salary": 13937574
+      },
+      {
+        "id": "2990992",
+        "fullName": "Marcus Smart",
+        "salary": 5134000
+      },
+      {
+        "id": "4683686",
+        "fullName": "Nick Smith Jr.",
+        "salary": 0
+      },
+      {
+        "id": "5060631",
+        "fullName": "Adou Thiero",
+        "salary": 1272870
+      },
+      {
+        "id": "4431695",
+        "fullName": "Drew Timme",
+        "salary": 1955377
+      },
+      {
+        "id": "4278077",
+        "fullName": "Jarred Vanderbilt",
+        "salary": 11571429
+      }
+    ],
+    "MEM": [
+      {
+        "id": "4593125",
+        "fullName": "Santi Aldama",
+        "salary": 18485916
+      },
+      {
+        "id": "4896365",
+        "fullName": "Adama Bal",
+        "salary": null
+      },
+      {
+        "id": "5041935",
+        "fullName": "Cameron Boozer",
+        "salary": null
+      },
+      {
+        "id": "2581018",
+        "fullName": "Kentavious Caldwell-Pope",
+        "salary": 21621500
+      },
+      {
+        "id": "4896372",
+        "fullName": "Walter Clayton Jr.",
+        "salary": 3991320
+      },
+      {
+        "id": "4903027",
+        "fullName": "Cedric Coward",
+        "salary": 5715120
+      },
+      {
+        "id": "4600663",
+        "fullName": "Zach Edey",
+        "salary": 6045000
+      },
+      {
+        "id": "3986",
+        "fullName": "Taj Gibson",
+        "salary": 960753
+      },
+      {
+        "id": "4684806",
+        "fullName": "Taylor Hendricks",
+        "salary": 6127080
+      },
+      {
+        "id": "5105550",
+        "fullName": "GG Jackson",
+        "salary": 2221677
+      },
+      {
+        "id": "4065733",
+        "fullName": "Ty Jerome",
+        "salary": 8781000
+      },
+      {
+        "id": "5231919",
+        "fullName": "Karim Lopez",
+        "salary": null
+      },
+      {
+        "id": "4683934",
+        "fullName": "Jahmai Mashack",
+        "salary": 0
+      },
+      {
+        "id": "4279888",
+        "fullName": "Ja Morant",
+        "salary": 39446090
+      },
+      {
+        "id": "4700873",
+        "fullName": "Toby Okani",
+        "salary": null
+      },
+      {
+        "id": "4431785",
+        "fullName": "Scotty Pippen Jr.",
+        "salary": 2270735
+      },
+      {
+        "id": "4595400",
+        "fullName": "Olivier-Maxence Prosper",
+        "salary": 527879
+      },
+      {
+        "id": "5099752",
+        "fullName": "Rayan Rupert",
+        "salary": 0
+      },
+      {
+        "id": "5105462",
+        "fullName": "Richie Saunders",
+        "salary": null
+      },
+      {
+        "id": "4781746",
+        "fullName": "Javon Small",
+        "salary": 0
+      },
+      {
+        "id": "4433083",
+        "fullName": "Cam Spencer",
+        "salary": 2537989
+      },
+      {
+        "id": "4432810",
+        "fullName": "Isaiah Stewart",
+        "salary": 15000000
+      },
+      {
+        "id": "5112087",
+        "fullName": "Jaylen Wells",
+        "salary": 1955377
+      },
+      {
+        "id": "4432735",
+        "fullName": "Dariq Whitehead",
+        "salary": 3262560
+      },
+      {
+        "id": "4279147",
+        "fullName": "Lucas Williamson",
+        "salary": null
+      }
+    ],
+    "MIA": [
+      {
+        "id": "4066261",
+        "fullName": "Bam Adebayo",
+        "salary": 37096620
+      },
+      {
+        "id": "3032977",
+        "fullName": "Giannis Antetokounmpo",
+        "salary": 54126450
+      },
+      {
+        "id": "5107157",
+        "fullName": "Ryan Conwell",
+        "salary": null
+      },
+      {
+        "id": "4837356",
+        "fullName": "Tre Donaldson",
+        "salary": null
+      },
+      {
+        "id": "3899664",
+        "fullName": "Simone Fontecchio",
+        "salary": 8307692
+      },
+      {
+        "id": "4431772",
+        "fullName": "Myron Gardner",
+        "salary": 395029
+      },
+      {
+        "id": "4700818",
+        "fullName": "Vladislav Goldin",
+        "salary": 0
+      },
+      {
+        "id": "4431786",
+        "fullName": "Keshad Johnson",
+        "salary": 1955377
+      },
+      {
+        "id": "4997528",
+        "fullName": "Nikola Jovic",
+        "salary": 4445417
+      },
+      {
+        "id": "4432645",
+        "fullName": "Trevor Keels",
+        "salary": 0
+      },
+      {
+        "id": "4601025",
+        "fullName": "Pelle Larsson",
+        "salary": 1955377
+      },
+      {
+        "id": "4278053",
+        "fullName": "Davion Mitchell",
+        "salary": 11600000
+      },
+      {
+        "id": "3064482",
+        "fullName": "Bobby Portis",
+        "salary": 13580247
+      },
+      {
+        "id": "2595516",
+        "fullName": "Norman Powell",
+        "salary": 20482758
+      },
+      {
+        "id": "4066993",
+        "fullName": "Dru Smith",
+        "salary": 2378870
+      },
+      {
+        "id": "3059319",
+        "fullName": "Andrew Wiggins",
+        "salary": 28223214
+      },
+      {
+        "id": "4433133",
+        "fullName": "Jahmir Young",
+        "salary": 0
+      }
+    ],
+    "MIL": [
+      {
+        "id": "5164559",
+        "fullName": "Nate Ament",
+        "salary": null
+      },
+      {
+        "id": "4432452",
+        "fullName": "Alex Antetokounmpo",
+        "salary": 0
+      },
+      {
+        "id": "3102533",
+        "fullName": "Thanasis Antetokounmpo",
+        "salary": 2296274
+      },
+      {
+        "id": "5082206",
+        "fullName": "Brayden Burries",
+        "salary": null
+      },
+      {
+        "id": "4997526",
+        "fullName": "Ousmane Dieng",
+        "salary": 6670882
+      },
+      {
+        "id": "4397475",
+        "fullName": "AJ Green",
+        "salary": 2301587
+      },
+      {
+        "id": "2999547",
+        "fullName": "Gary Harris",
+        "salary": 3634153
+      },
+      {
+        "id": "4395725",
+        "fullName": "Tyler Herro",
+        "salary": 31000000
+      },
+      {
+        "id": "4432190",
+        "fullName": "Andre Jackson Jr.",
+        "salary": 2221677
+      },
+      {
+        "id": "5214640",
+        "fullName": "Kasparas Jakucionis",
+        "salary": 3658800
+      },
+      {
+        "id": "4432848",
+        "fullName": "Jaime Jaquez Jr.",
+        "salary": 3861600
+      },
+      {
+        "id": "3134907",
+        "fullName": "Kyle Kuzma",
+        "salary": 21810605
+      },
+      {
+        "id": "5184016",
+        "fullName": "Malique Lewis",
+        "salary": null
+      },
+      {
+        "id": "4397233",
+        "fullName": "Pete Nance",
+        "salary": 0
+      },
+      {
+        "id": "4397140",
+        "fullName": "Kevin Porter Jr.",
+        "salary": 5134000
+      },
+      {
+        "id": "2990962",
+        "fullName": "Taurean Prince",
+        "salary": 3303774
+      },
+      {
+        "id": "4591725",
+        "fullName": "Ryan Rollins",
+        "salary": 4000000
+      },
+      {
+        "id": "4397114",
+        "fullName": "Cormac Ryan",
+        "salary": 0
+      },
+      {
+        "id": "4277922",
+        "fullName": "Jericho Sims",
+        "salary": 2461463
+      },
+      {
+        "id": "4277843",
+        "fullName": "Gary Trent Jr.",
+        "salary": 3697105
+      },
+      {
+        "id": "3133628",
+        "fullName": "Myles Turner",
+        "salary": 25318251
+      },
+      {
+        "id": "5105623",
+        "fullName": "Kel'el Ware",
+        "salary": 4443360
+      }
+    ],
+    "MIN": [
+      {
+        "id": "2993874",
+        "fullName": "Kyle Anderson",
+        "salary": 567470
+      },
+      {
+        "id": "4432816",
+        "fullName": "LaMelo Ball",
+        "salary": 37958760
+      },
+      {
+        "id": "5279133",
+        "fullName": "Joan Beringer",
+        "salary": 4201080
+      },
+      {
+        "id": "4432247",
+        "fullName": "Jaylen Clark",
+        "salary": 2191897
+      },
+      {
+        "id": "3195",
+        "fullName": "Mike Conley",
+        "salary": 725834
+      },
+      {
+        "id": "3934673",
+        "fullName": "Donte DiVincenzo",
+        "salary": 11990000
+      },
+      {
+        "id": "4397002",
+        "fullName": "Ayo Dosunmu",
+        "salary": 7518519
+      },
+      {
+        "id": "4594268",
+        "fullName": "Anthony Edwards",
+        "salary": 45550512
+      },
+      {
+        "id": "5061585",
+        "fullName": "Isaiah Evans",
+        "salary": null
+      },
+      {
+        "id": "4592699",
+        "fullName": "Enrique Freeman",
+        "salary": 0
+      },
+      {
+        "id": "3032976",
+        "fullName": "Rudy Gobert",
+        "salary": 35000000
+      },
+      {
+        "id": "4432811",
+        "fullName": "Josh Green",
+        "salary": 13666667
+      },
+      {
+        "id": "4592492",
+        "fullName": "Bones Hyland",
+        "salary": 2296274
+      },
+      {
+        "id": "2968436",
+        "fullName": "Joe Ingles",
+        "salary": 2296274
+      },
+      {
+        "id": "4897438",
+        "fullName": "Trey Kaufman-Renn",
+        "salary": null
+      },
+      {
+        "id": "4431671",
+        "fullName": "Jaden McDaniels",
+        "salary": 24858622
+      },
+      {
+        "id": "5105553",
+        "fullName": "Julian Phillips",
+        "salary": 2221677
+      },
+      {
+        "id": "4592979",
+        "fullName": "Zyon Pullin",
+        "salary": 0
+      },
+      {
+        "id": "4432847",
+        "fullName": "Terrence Shannon Jr.",
+        "salary": 2674080
+      },
+      {
+        "id": "5157587",
+        "fullName": "Rocco Zikarsky",
+        "salary": 0
+      }
+    ],
+    "NOP": [
+      {
+        "id": "4433268",
+        "fullName": "Trey Alexander",
+        "salary": 0
+      },
+      {
+        "id": "4397136",
+        "fullName": "Saddiq Bey",
+        "salary": 6118644
+      },
+      {
+        "id": "4432180",
+        "fullName": "Hunter Dickinson",
+        "salary": 0
+      },
+      {
+        "id": "5144091",
+        "fullName": "Jeremiah Fears",
+        "salary": 7520040
+      },
+      {
+        "id": "4683750",
+        "fullName": "Jordan Hawkins",
+        "salary": 4741320
+      },
+      {
+        "id": "4277813",
+        "fullName": "Herbert Jones",
+        "salary": 13937574
+      },
+      {
+        "id": "3442",
+        "fullName": "DeAndre Jordan",
+        "salary": 2269880
+      },
+      {
+        "id": "3155535",
+        "fullName": "Kevon Looney",
+        "salary": 8000000
+      },
+      {
+        "id": "4997538",
+        "fullName": "Karlo Matkovic",
+        "salary": 1955377
+      },
+      {
+        "id": "4576086",
+        "fullName": "Bryce McGowens",
+        "salary": 724598
+      },
+      {
+        "id": "5061589",
+        "fullName": "Yves Missi",
+        "salary": 3353040
+      },
+      {
+        "id": "4397688",
+        "fullName": "Trey Murphy III",
+        "salary": 25000000
+      },
+      {
+        "id": "3907497",
+        "fullName": "Dejounte Murray",
+        "salary": 30801103
+      },
+      {
+        "id": "4432068",
+        "fullName": "Josh Oduro",
+        "salary": 0
+      },
+      {
+        "id": "4432185",
+        "fullName": "Micah Peavy",
+        "salary": 1272970
+      },
+      {
+        "id": "4703115",
+        "fullName": "Jaron Pierre Jr.",
+        "salary": null
+      },
+      {
+        "id": "4277956",
+        "fullName": "Jordan Poole",
+        "salary": 31848215
+      },
+      {
+        "id": "4869780",
+        "fullName": "Derik Queen",
+        "salary": 5157960
+      },
+      {
+        "id": "4395628",
+        "fullName": "Zion Williamson",
+        "salary": 39446090
+      }
+    ],
+    "NYK": [
+      {
+        "id": "4277869",
+        "fullName": "Jose Alvarado",
+        "salary": 4500000
+      },
+      {
+        "id": "3934719",
+        "fullName": "OG Anunoby",
+        "salary": 39568966
+      },
+      {
+        "id": "3147657",
+        "fullName": "Mikal Bridges",
+        "salary": 24900000
+      },
+      {
+        "id": "3934672",
+        "fullName": "Jalen Brunson",
+        "salary": 34944001
+      },
+      {
+        "id": "2528426",
+        "fullName": "Jordan Clarkson",
+        "salary": 2296274
+      },
+      {
+        "id": "5211983",
+        "fullName": "Pacome Dadiet",
+        "salary": 2847600
+      },
+      {
+        "id": "5289900",
+        "fullName": "Mohamed Diawara",
+        "salary": 1272870
+      },
+      {
+        "id": "3062679",
+        "fullName": "Josh Hart",
+        "salary": 19472240
+      },
+      {
+        "id": "4871141",
+        "fullName": "Ariel Hukporti",
+        "salary": 1955377
+      },
+      {
+        "id": "4395623",
+        "fullName": "Trey Jemison III",
+        "salary": 0
+      },
+      {
+        "id": "4702159",
+        "fullName": "Dillon Jones",
+        "salary": 2753280
+      },
+      {
+        "id": "5234862",
+        "fullName": "Jack Kayil",
+        "salary": null
+      },
+      {
+        "id": "4433225",
+        "fullName": "Tyler Kolek",
+        "salary": 2191897
+      },
+      {
+        "id": "4431823",
+        "fullName": "Miles McBride",
+        "salary": 4333333
+      },
+      {
+        "id": "4411057",
+        "fullName": "Kevin McCullar Jr.",
+        "salary": 0
+      },
+      {
+        "id": "4838721",
+        "fullName": "Tyler Nickel",
+        "salary": null
+      },
+      {
+        "id": "4351852",
+        "fullName": "Mitchell Robinson",
+        "salary": 12954546
+      },
+      {
+        "id": "3914044",
+        "fullName": "Landry Shamet",
+        "salary": 2296274
+      },
+      {
+        "id": "4610139",
+        "fullName": "Jeremy Sochan",
+        "salary": 778622
+      },
+      {
+        "id": "3136195",
+        "fullName": "Karl-Anthony Towns",
+        "salary": 54126450
+      }
+    ],
+    "OKC": [
+      {
+        "id": "4684208",
+        "fullName": "Brooks Barnhizer",
+        "salary": 0
+      },
+      {
+        "id": "4592435",
+        "fullName": "Branden Carlson",
+        "salary": 0
+      },
+      {
+        "id": "2991350",
+        "fullName": "Alex Caruso",
+        "salary": 18102000
+      },
+      {
+        "id": "5105800",
+        "fullName": "Josh Dix",
+        "salary": null
+      },
+      {
+        "id": "4397020",
+        "fullName": "Luguentz Dort",
+        "salary": 18222222
+      },
+      {
+        "id": "4278073",
+        "fullName": "Shai Gilgeous-Alexander",
+        "salary": 38333050
+      },
+      {
+        "id": "4222252",
+        "fullName": "Isaiah Hartenstein",
+        "salary": 28500000
+      },
+      {
+        "id": "4433255",
+        "fullName": "Chet Holmgren",
+        "salary": 13731368
+      },
+      {
+        "id": "4395702",
+        "fullName": "Isaiah Joe",
+        "salary": 12362338
+      },
+      {
+        "id": "5174983",
+        "fullName": "Aday Mara",
+        "salary": null
+      },
+      {
+        "id": "4683778",
+        "fullName": "Jared McCain",
+        "salary": 4221360
+      },
+      {
+        "id": "4900671",
+        "fullName": "Ajay Mitchell",
+        "salary": 3000000
+      },
+      {
+        "id": "5106270",
+        "fullName": "Otega Oweh",
+        "salary": null
+      },
+      {
+        "id": "4697270",
+        "fullName": "Payton Sandfort",
+        "salary": 0
+      },
+      {
+        "id": "5061603",
+        "fullName": "Thomas Sorber",
+        "salary": 4655040
+      },
+      {
+        "id": "5241364",
+        "fullName": "Bennett Stirtz",
+        "salary": null
+      },
+      {
+        "id": "5159925",
+        "fullName": "Nikola Topic",
+        "salary": 5182920
+      },
+      {
+        "id": "4683692",
+        "fullName": "Cason Wallace",
+        "salary": 5820240
+      },
+      {
+        "id": "4397183",
+        "fullName": "Aaron Wiggins",
+        "salary": 10102802
+      },
+      {
+        "id": "4593803",
+        "fullName": "Jalen Williams",
+        "salary": 6580997
+      },
+      {
+        "id": "4432823",
+        "fullName": "Jaylin Williams",
+        "salary": 8450794
+      },
+      {
+        "id": "3133626",
+        "fullName": "Kenrich Williams",
+        "salary": 7163000
+      }
+    ],
+    "ORL": [
+      {
+        "id": "4432573",
+        "fullName": "Paolo Banchero",
+        "salary": 15334769
+      },
+      {
+        "id": "4066320",
+        "fullName": "Desmond Bane",
+        "salary": 36725670
+      },
+      {
+        "id": "4348700",
+        "fullName": "Goga Bitadze",
+        "salary": 8333333
+      },
+      {
+        "id": "4712849",
+        "fullName": "Anthony Black",
+        "salary": 7970280
+      },
+      {
+        "id": "4278572",
+        "fullName": "Jamal Cain",
+        "salary": 0
+      },
+      {
+        "id": "3133635",
+        "fullName": "Jevon Carter",
+        "salary": 871000
+      },
+      {
+        "id": "4277847",
+        "fullName": "Wendell Carter Jr.",
+        "salary": 10850000
+      },
+      {
+        "id": "4397204",
+        "fullName": "Colin Castleton",
+        "salary": 2191897
+      },
+      {
+        "id": "4702382",
+        "fullName": "Tristan da Silva",
+        "salary": 3809520
+      },
+      {
+        "id": "5105806",
+        "fullName": "Jett Howard",
+        "salary": 5529720
+      },
+      {
+        "id": "4593034",
+        "fullName": "Alex Morales",
+        "salary": 0
+      },
+      {
+        "id": "5107251",
+        "fullName": "Izaiyah Nelson",
+        "salary": null
+      },
+      {
+        "id": "5214637",
+        "fullName": "Noah Penda",
+        "salary": 1272870
+      },
+      {
+        "id": "5239561",
+        "fullName": "Jase Richardson",
+        "salary": 2983320
+      },
+      {
+        "id": "4432165",
+        "fullName": "Jalen Suggs",
+        "salary": 35000000
+      },
+      {
+        "id": "4566434",
+        "fullName": "Franz Wagner",
+        "salary": 38661750
+      },
+      {
+        "id": "3150844",
+        "fullName": "Moritz Wagner",
+        "salary": 5000000
+      }
+    ],
+    "PHI": [
+      {
+        "id": "4870562",
+        "fullName": "Dominick Barlow",
+        "salary": 3415000
+      },
+      {
+        "id": "4432179",
+        "fullName": "MarJon Beauchamp",
+        "salary": 0
+      },
+      {
+        "id": "5105637",
+        "fullName": "Adem Bona",
+        "salary": 1955377
+      },
+      {
+        "id": "4433569",
+        "fullName": "Johni Broome",
+        "salary": 1272870
+      },
+      {
+        "id": "6585",
+        "fullName": "Andre Drummond",
+        "salary": 5000000
+      },
+      {
+        "id": "5124612",
+        "fullName": "VJ Edgecombe",
+        "salary": 11108880
+      },
+      {
+        "id": "4711297",
+        "fullName": "Justin Edwards",
+        "salary": 2048494
+      },
+      {
+        "id": "3059318",
+        "fullName": "Joel Embiid",
+        "salary": 55224526
+      },
+      {
+        "id": "4251",
+        "fullName": "Paul George",
+        "salary": 51666090
+      },
+      {
+        "id": "4397014",
+        "fullName": "Quentin Grimes",
+        "salary": 8741209
+      },
+      {
+        "id": "3012",
+        "fullName": "Kyle Lowry",
+        "salary": 2296274
+      },
+      {
+        "id": "4397179",
+        "fullName": "Tyrese Martin",
+        "salary": 0
+      },
+      {
+        "id": "4431678",
+        "fullName": "Tyrese Maxey",
+        "salary": 37958760
+      },
+      {
+        "id": "3133603",
+        "fullName": "Kelly Oubre Jr.",
+        "salary": 8382150
+      },
+      {
+        "id": "4873090",
+        "fullName": "Labaron Philon Jr.",
+        "salary": null
+      },
+      {
+        "id": "4433159",
+        "fullName": "Dalen Terry",
+        "salary": 0
+      },
+      {
+        "id": "4432446",
+        "fullName": "Jabari Walker",
+        "salary": 724598
+      },
+      {
+        "id": "4431675",
+        "fullName": "Trendon Watford",
+        "salary": 2461463
+      }
+    ],
+    "PHX": [
+      {
+        "id": "3136193",
+        "fullName": "Devin Booker",
+        "salary": 53142264
+      },
+      {
+        "id": "4280245",
+        "fullName": "Jamaree Bouyea",
+        "salary": 574210
+      },
+      {
+        "id": "4591259",
+        "fullName": "Koby Brea",
+        "salary": 0
+      },
+      {
+        "id": "4066383",
+        "fullName": "Miles Bridges",
+        "salary": 25000000
+      },
+      {
+        "id": "3155526",
+        "fullName": "Dillon Brooks",
+        "salary": 22124110
+      },
+      {
+        "id": "4066387",
+        "fullName": "Amir Coffey",
+        "salary": 2296274
+      },
+      {
+        "id": "4888725",
+        "fullName": "Ryan Dunn",
+        "salary": 2657760
+      },
+      {
+        "id": "5105977",
+        "fullName": "Rasheer Fleming",
+        "salary": 1272870
+      },
+      {
+        "id": "4278585",
+        "fullName": "Collin Gillespie",
+        "salary": 2296274
+      },
+      {
+        "id": "4278402",
+        "fullName": "Jordan Goodwin",
+        "salary": 2349578
+      },
+      {
+        "id": "4437244",
+        "fullName": "Jalen Green",
+        "salary": 33548499
+      },
+      {
+        "id": "4291678",
+        "fullName": "Haywood Highsmith",
+        "salary": 827984
+      },
+      {
+        "id": "4702602",
+        "fullName": "CJ Huntley",
+        "salary": 0
+      },
+      {
+        "id": "4601023",
+        "fullName": "Oso Ighodaro",
+        "salary": 1955377
+      },
+      {
+        "id": "4277957",
+        "fullName": "Isaiah Livers",
+        "salary": 0
+      },
+      {
+        "id": "5203685",
+        "fullName": "Khaman Maluach",
+        "salary": 6016080
+      },
+      {
+        "id": "5041953",
+        "fullName": "Koa Peat",
+        "salary": null
+      },
+      {
+        "id": "4701232",
+        "fullName": "Mark Williams",
+        "salary": 6276531
+      }
+    ],
+    "POR": [
+      {
+        "id": "4683021",
+        "fullName": "Deni Avdija",
+        "salary": 14375000
+      },
+      {
+        "id": "4431736",
+        "fullName": "Toumani Camara",
+        "salary": 2221677
+      },
+      {
+        "id": "5081727",
+        "fullName": "Sidy Cissoko",
+        "salary": 688243
+      },
+      {
+        "id": "5105565",
+        "fullName": "Donovan Clingan",
+        "salary": 7178400
+      },
+      {
+        "id": "2991070",
+        "fullName": "Jerami Grant",
+        "salary": 32000000
+      },
+      {
+        "id": "5217746",
+        "fullName": "Yang Hansen",
+        "salary": 4422360
+      },
+      {
+        "id": "4683678",
+        "fullName": "Scoot Henderson",
+        "salary": 10748040
+      },
+      {
+        "id": "3995",
+        "fullName": "Jrue Holiday",
+        "salary": 32400000
+      },
+      {
+        "id": "4703889",
+        "fullName": "Jayson Kent",
+        "salary": 0
+      },
+      {
+        "id": "4578893",
+        "fullName": "Vit Krejci",
+        "salary": 2349578
+      },
+      {
+        "id": "6606",
+        "fullName": "Damian Lillard",
+        "salary": 14104000
+      },
+      {
+        "id": "4433144",
+        "fullName": "Caleb Love",
+        "salary": 0
+      },
+      {
+        "id": "4594326",
+        "fullName": "Kris Murray",
+        "salary": 3132000
+      },
+      {
+        "id": "4914336",
+        "fullName": "Shaedon Sharpe",
+        "salary": 8399983
+      },
+      {
+        "id": "3907498",
+        "fullName": "Matisse Thybulle",
+        "salary": 11550000
+      },
+      {
+        "id": "4683935",
+        "fullName": "Blake Wesley",
+        "salary": 4726328
+      },
+      {
+        "id": "4066211",
+        "fullName": "Robert Williams III",
+        "salary": 13285713
+      },
+      {
+        "id": "4706557",
+        "fullName": "Chris Youngblood",
+        "salary": 0
+      }
+    ],
+    "SAC": [
+      {
+        "id": "4431679",
+        "fullName": "Precious Achiuwa",
+        "salary": 2111516
+      },
+      {
+        "id": "5142620",
+        "fullName": "Darius Acuff Jr.",
+        "salary": null
+      },
+      {
+        "id": "4433246",
+        "fullName": "Patrick Baldwin Jr.",
+        "salary": 0
+      },
+      {
+        "id": "4433174",
+        "fullName": "Dylan Cardwell",
+        "salary": 871000
+      },
+      {
+        "id": "4433188",
+        "fullName": "Devin Carter",
+        "salary": 4923720
+      },
+      {
+        "id": "4702384",
+        "fullName": "Nique Clifford",
+        "salary": 3108120
+      },
+      {
+        "id": "3978",
+        "fullName": "DeMar DeRozan",
+        "salary": 24570000
+      },
+      {
+        "id": "3914285",
+        "fullName": "Drew Eubanks",
+        "salary": 2296274
+      },
+      {
+        "id": "4683024",
+        "fullName": "Killian Hayes",
+        "salary": null
+      },
+      {
+        "id": "4065732",
+        "fullName": "De'Andre Hunter",
+        "salary": 23303571
+      },
+      {
+        "id": "4917149",
+        "fullName": "Alex Karaban",
+        "salary": null
+      },
+      {
+        "id": "3064440",
+        "fullName": "Zach LaVine",
+        "salary": 47499660
+      },
+      {
+        "id": "2528588",
+        "fullName": "Doug McDermott",
+        "salary": 2296274
+      },
+      {
+        "id": "4066262",
+        "fullName": "Malik Monk",
+        "salary": 18797618
+      },
+      {
+        "id": "4594327",
+        "fullName": "Keegan Murray",
+        "salary": 11144093
+      },
+      {
+        "id": "4279318",
+        "fullName": "Daeqwon Plowden",
+        "salary": 0
+      },
+      {
+        "id": "4898371",
+        "fullName": "Maxime Raynaud",
+        "salary": 1272870
+      },
+      {
+        "id": "3155942",
+        "fullName": "Domantas Sabonis",
+        "salary": 43636000
+      },
+      {
+        "id": "5106058",
+        "fullName": "Emanuel Sharp",
+        "salary": null
+      },
+      {
+        "id": "4432117",
+        "fullName": "Isaiah Stevens",
+        "salary": 0
+      },
+      {
+        "id": "3468",
+        "fullName": "Russell Westbrook",
+        "salary": 2296274
+      }
+    ],
+    "SAS": [
+      {
+        "id": "6578",
+        "fullName": "Harrison Barnes",
+        "salary": 19000000
+      },
+      {
+        "id": "6427",
+        "fullName": "Bismack Biyombo",
+        "salary": 2296274
+      },
+      {
+        "id": "5105337",
+        "fullName": "Maliq Brown",
+        "salary": null
+      },
+      {
+        "id": "5061568",
+        "fullName": "Carter Bryant",
+        "salary": 4900320
+      },
+      {
+        "id": "4845367",
+        "fullName": "Stephon Castle",
+        "salary": 9560520
+      },
+      {
+        "id": "4592479",
+        "fullName": "Julian Champagnie",
+        "salary": 3000000
+      },
+      {
+        "id": "4066259",
+        "fullName": "De'Aaron Fox",
+        "salary": 37096620
+      },
+      {
+        "id": "5107968",
+        "fullName": "Ja'Kobi Gillespie",
+        "salary": null
+      },
+      {
+        "id": "5037871",
+        "fullName": "Dylan Harper",
+        "salary": 12370320
+      },
+      {
+        "id": "4433618",
+        "fullName": "Harrison Ingram",
+        "salary": 0
+      },
+      {
+        "id": "4395723",
+        "fullName": "Keldon Johnson",
+        "salary": 17500000
+      },
+      {
+        "id": "4713010",
+        "fullName": "David Jones Garcia",
+        "salary": 0
+      },
+      {
+        "id": "3064560",
+        "fullName": "Luke Kornet",
+        "salary": 11000000
+      },
+      {
+        "id": "3134916",
+        "fullName": "Jordan McLaughlin",
+        "salary": 2296274
+      },
+      {
+        "id": "4432872",
+        "fullName": "Emanuel Miller",
+        "salary": 0
+      },
+      {
+        "id": "2489663",
+        "fullName": "Kelly Olynyk",
+        "salary": 13445122
+      },
+      {
+        "id": "2488653",
+        "fullName": "Mason Plumlee",
+        "salary": 593864
+      },
+      {
+        "id": "5101845",
+        "fullName": "Jayden Quaintance",
+        "salary": null
+      },
+      {
+        "id": "5105809",
+        "fullName": "Tarris Reed Jr.",
+        "salary": null
+      },
+      {
+        "id": "4395630",
+        "fullName": "Devin Vassell",
+        "salary": 27000000
+      },
+      {
+        "id": "4066317",
+        "fullName": "Lindy Waters III",
+        "salary": 2296274
+      },
+      {
+        "id": "5104157",
+        "fullName": "Victor Wembanyama",
+        "salary": 13376880
+      }
+    ],
+    "TOR": [
+      {
+        "id": "4433134",
+        "fullName": "Scottie Barnes",
+        "salary": 38661750
+      },
+      {
+        "id": "4395625",
+        "fullName": "RJ Barrett",
+        "salary": 27705357
+      },
+      {
+        "id": "4431893",
+        "fullName": "Jamison Battle",
+        "salary": 1955377
+      },
+      {
+        "id": "4432737",
+        "fullName": "Jaden Bradley",
+        "salary": null
+      },
+      {
+        "id": "5106258",
+        "fullName": "Gradey Dick",
+        "salary": 4990560
+      },
+      {
+        "id": "5149115",
+        "fullName": "Allen Graves",
+        "salary": null
+      },
+      {
+        "id": "4590360",
+        "fullName": "Chucky Hepburn",
+        "salary": 0
+      },
+      {
+        "id": "3913176",
+        "fullName": "Brandon Ingram",
+        "salary": 38095238
+      },
+      {
+        "id": "4431684",
+        "fullName": "Trayce Jackson-Davis",
+        "salary": 2221677
+      },
+      {
+        "id": "4067017",
+        "fullName": "A.J. Lawson",
+        "salary": 2270735
+      },
+      {
+        "id": "4278580",
+        "fullName": "Sandro Mamukelashvili",
+        "salary": 2461463
+      },
+      {
+        "id": "4702656",
+        "fullName": "Alijah Martin",
+        "salary": 0
+      },
+      {
+        "id": "5107897",
+        "fullName": "Jonathan Mogbo",
+        "salary": 1955377
+      },
+      {
+        "id": "5093267",
+        "fullName": "Collin Murray-Boyles",
+        "salary": 6332520
+      },
+      {
+        "id": "3134908",
+        "fullName": "Jakob Poeltl",
+        "salary": 19500000
+      },
+      {
+        "id": "4395724",
+        "fullName": "Immanuel Quickley",
+        "salary": 32500000
+      },
+      {
+        "id": "4432241",
+        "fullName": "Jamal Shead",
+        "salary": 1955377
+      },
+      {
+        "id": "4023",
+        "fullName": "Garrett Temple",
+        "salary": 2296274
+      },
+      {
+        "id": "4684272",
+        "fullName": "Ja'Kobe Walter",
+        "salary": 3638160
+      }
+    ],
+    "UTA": [
+      {
+        "id": "4873138",
+        "fullName": "Ace Bailey",
+        "salary": 9069840
+      },
+      {
+        "id": "4432646",
+        "fullName": "Kennedy Chandler",
+        "salary": null
+      },
+      {
+        "id": "4683766",
+        "fullName": "Isaiah Collier",
+        "salary": 2638200
+      },
+      {
+        "id": "4684793",
+        "fullName": "Kyle Filipowski",
+        "salary": 3000000
+      },
+      {
+        "id": "4433627",
+        "fullName": "Keyonte George",
+        "salary": 4278960
+      },
+      {
+        "id": "5176420",
+        "fullName": "Hayden Gray",
+        "salary": null
+      },
+      {
+        "id": "4397449",
+        "fullName": "Elijah Harkless",
+        "salary": 0
+      },
+      {
+        "id": "4396963",
+        "fullName": "Blake Hinson",
+        "salary": 0
+      },
+      {
+        "id": "4277961",
+        "fullName": "Jaren Jackson Jr.",
+        "salary": 35000000
+      },
+      {
+        "id": "4433136",
+        "fullName": "Walker Kessler",
+        "salary": 4878938
+      },
+      {
+        "id": "3134932",
+        "fullName": "John Konchar",
+        "salary": 6165000
+      },
+      {
+        "id": "3449",
+        "fullName": "Kevin Love",
+        "salary": 4150000
+      },
+      {
+        "id": "4066336",
+        "fullName": "Lauri Markkanen",
+        "salary": 46394100
+      },
+      {
+        "id": "4898237",
+        "fullName": "Bez Mbeng",
+        "salary": null
+      },
+      {
+        "id": "3133602",
+        "fullName": "Svi Mykhailiuk",
+        "salary": 3675000
+      },
+      {
+        "id": "3102530",
+        "fullName": "Jusuf Nurkic",
+        "salary": 19375000
+      },
+      {
+        "id": "5041955",
+        "fullName": "Darryn Peterson",
+        "salary": null
+      },
+      {
+        "id": "5105839",
+        "fullName": "Brice Sensabaugh",
+        "salary": 2693760
+      },
+      {
+        "id": "4432827",
+        "fullName": "Oscar Tshiebwe",
+        "salary": 0
+      },
+      {
+        "id": "4895758",
+        "fullName": "Cody Williams",
+        "salary": 5742480
+      }
+    ],
+    "WAS": [
+      {
+        "id": "4395650",
+        "fullName": "Leaky Black",
+        "salary": 0
+      },
+      {
+        "id": "4845374",
+        "fullName": "Bub Carrington",
+        "salary": 4677600
+      },
+      {
+        "id": "4432907",
+        "fullName": "Justin Champagnie",
+        "salary": 2349578
+      },
+      {
+        "id": "4432173",
+        "fullName": "Sharife Cooper",
+        "salary": 0
+      },
+      {
+        "id": "5104155",
+        "fullName": "Bilal Coulibaly",
+        "salary": 7275600
+      },
+      {
+        "id": "6583",
+        "fullName": "Anthony Davis",
+        "salary": 54126450
+      },
+      {
+        "id": "5142718",
+        "fullName": "AJ Dybantsa",
+        "salary": null
+      },
+      {
+        "id": "5174563",
+        "fullName": "Kyshawn George",
+        "salary": 2966760
+      },
+      {
+        "id": "2581184",
+        "fullName": "Anthony Gill",
+        "salary": 2546675
+      },
+      {
+        "id": "4868423",
+        "fullName": "Jaden Hardy",
+        "salary": 6000000
+      },
+      {
+        "id": "5238230",
+        "fullName": "Tre Johnson",
+        "salary": 8237640
+      },
+      {
+        "id": "5105841",
+        "fullName": "Felix Okpara",
+        "salary": null
+      },
+      {
+        "id": "4683742",
+        "fullName": "Julian Reese",
+        "salary": 0
+      },
+      {
+        "id": "5144126",
+        "fullName": "Will Riley",
+        "salary": 3512520
+      },
+      {
+        "id": "3136776",
+        "fullName": "D'Angelo Russell",
+        "salary": 5685000
+      },
+      {
+        "id": "5160992",
+        "fullName": "Alex Sarr",
+        "salary": 11808240
+      },
+      {
+        "id": "4997537",
+        "fullName": "Tristan Vukcevic",
+        "salary": 2857143
+      },
+      {
+        "id": "4606840",
+        "fullName": "Jamir Watkins",
+        "salary": 1131970
+      },
+      {
+        "id": "5105592",
+        "fullName": "Cam Whitmore",
+        "salary": 3539760
+      },
+      {
+        "id": "4277905",
+        "fullName": "Trae Young",
+        "salary": 46394100
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+import type { Team } from '../domain/nba-trade-tracker-schema';
+
+export const teams: Team[] = [
+  { id: 'ATL', market: 'Atlanta',        name: 'Hawks' },
+  { id: 'BOS', market: 'Boston',         name: 'Celtics' },
+  { id: 'BKN', market: 'Brooklyn',       name: 'Nets' },
+  { id: 'CHA', market: 'Charlotte',      name: 'Hornets' },
+  { id: 'CHI', market: 'Chicago',        name: 'Bulls' },
+  { id: 'CLE', market: 'Cleveland',      name: 'Cavaliers' },
+  { id: 'DAL', market: 'Dallas',         name: 'Mavericks' },
+  { id: 'DEN', market: 'Denver',         name: 'Nuggets' },
+  { id: 'DET', market: 'Detroit',        name: 'Pistons' },
+  { id: 'GSW', market: 'Golden State',   name: 'Warriors' },
+  { id: 'HOU', market: 'Houston',        name: 'Rockets' },
+  { id: 'IND', market: 'Indiana',        name: 'Pacers' },
+  { id: 'LAC', market: 'LA',             name: 'Clippers' },
+  { id: 'LAL', market: 'Los Angeles',    name: 'Lakers' },
+  { id: 'MEM', market: 'Memphis',        name: 'Grizzlies' },
+  { id: 'MIA', market: 'Miami',          name: 'Heat' },
+  { id: 'MIL', market: 'Milwaukee',      name: 'Bucks' },
+  { id: 'MIN', market: 'Minnesota',      name: 'Timberwolves' },
+  { id: 'NOP', market: 'New Orleans',    name: 'Pelicans' },
+  { id: 'NYK', market: 'New York',       name: 'Knicks' },
+  { id: 'OKC', market: 'Oklahoma City',  name: 'Thunder' },
+  { id: 'ORL', market: 'Orlando',        name: 'Magic' },
+  { id: 'PHI', market: 'Philadelphia',   name: '76ers' },
+  { id: 'PHX', market: 'Phoenix',        name: 'Suns' },
+  { id: 'POR', market: 'Portland',       name: 'Trail Blazers' },
+  { id: 'SAC', market: 'Sacramento',     name: 'Kings' },
+  { id: 'SAS', market: 'San Antonio',    name: 'Spurs' },
+  { id: 'TOR', market: 'Toronto',        name: 'Raptors' },
+  { id: 'UTA', market: 'Utah',           name: 'Jazz' },
+  { id: 'WAS', market: 'Washington',     name: 'Wizards' },
+];
+
+export const teamMap = Object.fromEntries(teams.map(t => [t.id, t]));
