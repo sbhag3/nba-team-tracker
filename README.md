@@ -1,4 +1,4 @@
-# NBA Trade Tracker
+# NBA Offseason Tracker
 
 A personal dashboard for tracking NBA rosters, trades, free agency, and trade rumors — all stored locally in your browser with no backend required.
 

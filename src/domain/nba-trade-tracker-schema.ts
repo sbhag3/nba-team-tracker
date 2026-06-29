@@ -1,4 +1,4 @@
-// NBA Trade Tracker — core data model (MVP, "reflection" mode)
+// NBA Offseason Tracker — core data model (MVP, "reflection" mode)
 // Scope: encode trades that already happened, then project each team's
 // current roster + pick ownership. Pick protections are free text and
 // maintained by hand for now (structured rules come later, if ever).
