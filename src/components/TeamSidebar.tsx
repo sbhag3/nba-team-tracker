@@ -21,7 +21,7 @@ export function TeamSidebar({ selected, onSelect, view, onPageSelect }: Props) {
       {/* Branding */}
       <div className="px-5 pt-6 pb-4">
         <p className="text-white font-bold text-xl tracking-tight leading-none">NBA</p>
-        <p className="text-blue-400 font-semibold text-sm mt-0.5">Trade Tracker</p>
+        <p className="text-blue-400 font-semibold text-sm mt-0.5">Offseason Tracker</p>
       </div>
 
       {/* Page nav */}
