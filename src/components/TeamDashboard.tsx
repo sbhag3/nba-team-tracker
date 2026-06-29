@@ -3,7 +3,10 @@ import type { LeagueState, TeamId, Trade } from '../domain/nba-trade-tracker-sch
 import { teamRoster } from '../domain/nba-trade-tracker-schema';
 import { playerMap, salaryMap } from '../domain/seed';
 import { teamMap } from '../data/teams';
-import type { SalaryEdits } from '../lib/storage';
+import type { SalaryEdits, FlaggedPlayer } from '../lib/storage';
+import type { PlayerFlag } from '../data/playerFlags';
+import { ALL_FLAGS, FLAG_META } from '../data/playerFlags';
+import { FlagBadge } from './FlagBadge';
 
 interface Props {
   state: LeagueState;
@@ -16,12 +19,15 @@ interface Props {
   addedPlayerIds: Set<string>;
   onAddPlayer: (name: string, team: string) => void;
   onDeleteAddedPlayer: (id: string) => void;
+  flaggedPlayers: FlaggedPlayer[];
+  onSavePlayerFlags: (playerId: string, playerName: string, team: string, flags: PlayerFlag[], notes: string) => void;
 }
 
 export function TeamDashboard({
   state, team, trades, salaryEdits, onSalaryEdit,
   removedPlayers, onRemovePlayer,
   addedPlayerIds, onAddPlayer, onDeleteAddedPlayer,
+  flaggedPlayers, onSavePlayerFlags,
 }: Props) {
   const [query, setQuery] = useState('');
   const [showAddPlayer, setShowAddPlayer] = useState(false);
@@ -115,6 +121,8 @@ export function TeamDashboard({
             onSalaryEdit={salary => onSalaryEdit(id, salary)}
             onRemove={() => onRemovePlayer(id)}
             onDelete={() => onDeleteAddedPlayer(id)}
+            flagEntry={flaggedPlayers.find(fp => fp.playerId === id)}
+            onSaveFlags={(flags, notes) => onSavePlayerFlags(id, playerMap[id] ?? id, team, flags, notes)}
           />
         ))}
         {filtered.length === 0 && (
@@ -158,18 +166,30 @@ interface PlayerRowProps {
   onSalaryEdit: (salary: number | null) => void;
   onRemove: () => void;
   onDelete: () => void;
+  flagEntry?: FlaggedPlayer;
+  onSaveFlags: (flags: PlayerFlag[], notes: string) => void;
 }
 
 function PlayerRow({
   rank, id, isCustom, salary, maxSalary, hasOverride, hasSalaryColumn,
   onSalaryEdit, onRemove, onDelete,
+  flagEntry, onSaveFlags,
 }: PlayerRowProps) {
   const [editing, setEditing] = useState(false);
   const [raw, setRaw] = useState('');
+  const [flagging, setFlagging] = useState(false);
+  const [localFlags, setLocalFlags] = useState<PlayerFlag[]>([]);
+  const [localNotes, setLocalNotes] = useState('');
 
   function startEdit() {
     setRaw(salary != null ? (salary / 1_000_000).toFixed(2).replace(/\.?0+$/, '') : '');
     setEditing(true);
+  }
+
+  function startFlag() {
+    setLocalFlags(flagEntry?.flags ?? []);
+    setLocalNotes(flagEntry?.notes ?? '');
+    setFlagging(true);
   }
 
   function commit() {
@@ -179,6 +199,7 @@ function PlayerRow({
   }
 
   const barPct = salary && maxSalary ? (salary / maxSalary) * 100 : 0;
+  const activeFlags = flagEntry?.flags ?? [];
 
   return (
     <li className="group border-b border-slate-50 dark:border-slate-800/60 last:border-0">
@@ -188,12 +209,13 @@ function PlayerRow({
           {rank}
         </span>
 
-        {/* Name */}
-        <span className={`text-sm font-medium flex-1 min-w-0 truncate ${
-          isCustom ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-800 dark:text-slate-200'
-        }`}>
-          {playerMap[id] ?? id}
-          {isCustom && <span className="ml-1 text-xs text-emerald-400 dark:text-emerald-500">+</span>}
+        {/* Name + flag badges */}
+        <span className="text-sm font-medium flex-1 min-w-0 flex items-center gap-1.5 flex-wrap">
+          <span className={`truncate ${isCustom ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-800 dark:text-slate-200'}`}>
+            {playerMap[id] ?? id}
+            {isCustom && <span className="ml-1 text-xs text-emerald-400 dark:text-emerald-500">+</span>}
+          </span>
+          {activeFlags.map(f => <FlagBadge key={f} flag={f} />)}
         </span>
 
         {/* Salary area */}
@@ -224,8 +246,20 @@ function PlayerRow({
         )}
 
         {/* Action buttons */}
-        {!editing && (
+        {!editing && !flagging && (
           <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+            <button
+              type="button"
+              onClick={startFlag}
+              title="Flag player"
+              className={`p-1 rounded transition-colors text-xs ${
+                activeFlags.length > 0
+                  ? 'text-amber-400 dark:text-amber-500 opacity-100'
+                  : 'text-slate-300 dark:text-slate-600 hover:text-amber-500 dark:hover:text-amber-400'
+              }`}
+            >
+              ⚑
+            </button>
             <button
               type="button"
               onClick={startEdit}
@@ -288,6 +322,68 @@ function PlayerRow({
               Clear override
             </button>
           )}
+        </div>
+      )}
+
+      {/* Inline flag editor */}
+      {flagging && (
+        <div className="flex flex-col gap-3 pb-3 pl-11 pr-2 pt-1 animate-fade-up">
+          <div className="flex flex-wrap gap-2">
+            {ALL_FLAGS.map(flag => {
+              const meta = FLAG_META[flag];
+              const active = localFlags.includes(flag);
+              return (
+                <button
+                  key={flag}
+                  type="button"
+                  onClick={() =>
+                    setLocalFlags(prev =>
+                      active ? prev.filter(f => f !== flag) : [...prev, flag],
+                    )
+                  }
+                  className={`text-xs font-semibold px-2.5 py-1.5 rounded-lg border transition-all ${
+                    active
+                      ? `${meta.className} border-current/20`
+                      : 'bg-slate-50 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
+                  }`}
+                >
+                  {meta.label}
+                </button>
+              );
+            })}
+          </div>
+          <textarea
+            value={localNotes}
+            onChange={e => setLocalNotes(e.target.value)}
+            rows={2}
+            placeholder="Notes (optional)…"
+            className="text-xs border border-slate-200 dark:border-slate-600 rounded-lg px-2.5 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 resize-none transition-colors"
+          />
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => { onSaveFlags(localFlags, localNotes); setFlagging(false); }}
+              className="text-xs px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all active:scale-95 font-medium"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              onClick={() => setFlagging(false)}
+              className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 px-1 transition-colors"
+            >
+              Cancel
+            </button>
+            {flagEntry && (
+              <button
+                type="button"
+                onClick={() => { onSaveFlags([], ''); setFlagging(false); }}
+                className="text-xs text-red-400 hover:text-red-600 dark:hover:text-red-400 ml-auto transition-colors"
+              >
+                Clear all flags
+              </button>
+            )}
+          </div>
         </div>
       )}
     </li>

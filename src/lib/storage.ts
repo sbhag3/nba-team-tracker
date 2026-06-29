@@ -1,4 +1,5 @@
 import type { Trade, PickId, TeamId } from '../domain/nba-trade-tracker-schema';
+import type { PlayerFlag } from '../data/playerFlags';
 
 export interface PickEdit {
   protections?: string;
@@ -150,6 +151,7 @@ export interface FreeAgent {
   id: string;
   name: string;
   previousTeam?: string;   // team ID they left (for display only)
+  faType?: 'rfa' | 'ufa'; // restricted or unrestricted FA
   status: 'unsigned' | 'signed';
   signedTeam?: string;     // team ID they signed with
   contractYears?: number;
@@ -170,6 +172,30 @@ export function loadFreeAgents(): FreeAgent[] {
 
 export function saveFreeAgents(fas: FreeAgent[]): void {
   localStorage.setItem(FREE_AGENTS_KEY, JSON.stringify(fas));
+}
+
+export interface FlaggedPlayer {
+  id: string;
+  playerId: string;
+  playerName: string;
+  team: string;
+  flags: PlayerFlag[];
+  notes?: string;
+  faId?: string;
+  addedAt: string;
+}
+
+const FLAGGED_PLAYERS_KEY = 'nba-flagged-players';
+
+export function loadFlaggedPlayers(): FlaggedPlayer[] {
+  try {
+    const raw = localStorage.getItem(FLAGGED_PLAYERS_KEY);
+    return raw ? (JSON.parse(raw) as FlaggedPlayer[]) : [];
+  } catch { return []; }
+}
+
+export function saveFlaggedPlayers(fps: FlaggedPlayer[]): void {
+  localStorage.setItem(FLAGGED_PLAYERS_KEY, JSON.stringify(fps));
 }
 
 export function readImportFile(file: File): Promise<Trade[]> {

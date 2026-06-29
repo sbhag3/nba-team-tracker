@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { teams } from '../data/teams';
-import type { Rumor } from '../lib/storage';
-
-interface Props {
-  rumors: Rumor[];
-  onAdd: (rumor: Omit<Rumor, 'id'>) => void;
-  onDelete: (id: string) => void;
-}
+import type { Rumor, FlaggedPlayer } from '../lib/storage';
+import type { PlayerFlag } from '../data/playerFlags';
+import { ALL_FLAGS, FLAG_META } from '../data/playerFlags';
+import { TeamChip } from './TeamChip';
+import { FlagBadge } from './FlagBadge';
 
 function localToday() {
   const d = new Date();
@@ -18,7 +16,18 @@ function formatDate(iso: string) {
   return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
-export function RumorBoard({ rumors, onAdd, onDelete }: Props) {
+interface Props {
+  rumors: Rumor[];
+  onAdd: (rumor: Omit<Rumor, 'id'>) => void;
+  onDelete: (id: string) => void;
+  flaggedPlayers: FlaggedPlayer[];
+  onSavePlayerFlags: (playerId: string, playerName: string, team: string, flags: PlayerFlag[], notes: string) => void;
+}
+
+type BoardTab = 'watchlist' | 'rumors';
+
+export function RumorBoard({ rumors, onAdd, onDelete, flaggedPlayers, onSavePlayerFlags }: Props) {
+  const [boardTab, setBoardTab] = useState<BoardTab>('watchlist');
   const [query, setQuery] = useState('');
   const [teamFilter, setTeamFilter] = useState('');
   const [showForm, setShowForm] = useState(false);
@@ -41,14 +50,14 @@ export function RumorBoard({ rumors, onAdd, onDelete }: Props) {
   return (
     <div className="max-w-2xl mx-auto px-8 py-10">
       {/* Header */}
-      <div className="flex items-start justify-between mb-8">
+      <div className="flex items-start justify-between mb-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">Bulletin Board</h1>
           <p className="text-sm text-slate-400 dark:text-slate-500 mt-1.5">
-            {rumors.length} rumor{rumors.length !== 1 ? 's' : ''} tracked
+            {flaggedPlayers.length} player{flaggedPlayers.length !== 1 ? 's' : ''} flagged &middot; {rumors.length} rumor{rumors.length !== 1 ? 's' : ''}
           </p>
         </div>
-        {!showForm && (
+        {boardTab === 'rumors' && !showForm && (
           <button
             type="button"
             onClick={() => setShowForm(true)}
@@ -59,56 +68,239 @@ export function RumorBoard({ rumors, onAdd, onDelete }: Props) {
         )}
       </div>
 
-      {/* Add form */}
-      {showForm && (
-        <AddRumorForm
-          onSubmit={data => { onAdd(data); setShowForm(false); }}
-          onCancel={() => setShowForm(false)}
-        />
-      )}
-
-      {/* Filters */}
-      <div className="flex gap-2 mb-6">
-        <div className="relative flex-1">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <input
-            type="text"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder="Search rumors…"
-            className="w-full pl-9 pr-4 py-2 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-200 placeholder-slate-300 dark:placeholder-slate-600 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-colors"
-          />
-        </div>
-        <select
-          value={teamFilter}
-          onChange={e => setTeamFilter(e.target.value)}
-          className="text-sm border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-colors"
-        >
-          <option value="">All teams</option>
-          {teams.map(t => (
-            <option key={t.id} value={t.id}>{t.id} – {t.name}</option>
-          ))}
-        </select>
+      {/* Tab switcher */}
+      <div className="flex items-center bg-slate-100 dark:bg-slate-800 rounded-xl p-1 gap-0.5 mb-7 self-start w-fit">
+        {([
+          { id: 'watchlist', label: 'Watch List', count: flaggedPlayers.length },
+          { id: 'rumors',    label: 'Rumors',     count: rumors.length },
+        ] as { id: BoardTab; label: string; count: number }[]).map(t => (
+          <button
+            key={t.id}
+            type="button"
+            onClick={() => setBoardTab(t.id)}
+            className={`px-4 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+              boardTab === t.id
+                ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+            }`}
+          >
+            {t.label}
+            {t.count > 0 && (
+              <span className={`ml-1.5 font-normal ${boardTab === t.id ? 'text-slate-400 dark:text-slate-500' : 'text-slate-400 dark:text-slate-600'}`}>
+                {t.count}
+              </span>
+            )}
+          </button>
+        ))}
       </div>
 
-      {/* Rumor cards */}
-      {filtered.length === 0 ? (
-        <div className="py-20 text-center">
-          <p className="text-4xl mb-3">📋</p>
-          <p className="text-sm text-slate-400 dark:text-slate-500">
-            {query || teamFilter ? 'No matching rumors.' : 'No rumors yet. Add one above.'}
-          </p>
-        </div>
-      ) : (
-        <ul className="space-y-3">
-          {filtered.map(r => (
-            <RumorCard key={r.id} rumor={r} onDelete={() => onDelete(r.id)} />
-          ))}
-        </ul>
+      {/* Watch List tab */}
+      {boardTab === 'watchlist' && (
+        <WatchList flaggedPlayers={flaggedPlayers} onSavePlayerFlags={onSavePlayerFlags} />
+      )}
+
+      {/* Rumors tab */}
+      {boardTab === 'rumors' && (
+        <>
+          {showForm && (
+            <AddRumorForm
+              onSubmit={data => { onAdd(data); setShowForm(false); }}
+              onCancel={() => setShowForm(false)}
+            />
+          )}
+
+          <div className="flex gap-2 mb-6">
+            <div className="relative flex-1">
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <input
+                type="text"
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+                placeholder="Search rumors…"
+                className="w-full pl-9 pr-4 py-2 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-200 placeholder-slate-300 dark:placeholder-slate-600 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-colors"
+              />
+            </div>
+            <select
+              value={teamFilter}
+              onChange={e => setTeamFilter(e.target.value)}
+              className="text-sm border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-colors"
+            >
+              <option value="">All teams</option>
+              {teams.map(t => (
+                <option key={t.id} value={t.id}>{t.id} – {t.name}</option>
+              ))}
+            </select>
+          </div>
+
+          {filtered.length === 0 ? (
+            <div className="py-20 text-center">
+              <p className="text-4xl mb-3">📋</p>
+              <p className="text-sm text-slate-400 dark:text-slate-500">
+                {query || teamFilter ? 'No matching rumors.' : 'No rumors yet. Add one above.'}
+              </p>
+            </div>
+          ) : (
+            <ul className="space-y-3">
+              {filtered.map(r => (
+                <RumorCard key={r.id} rumor={r} onDelete={() => onDelete(r.id)} />
+              ))}
+            </ul>
+          )}
+        </>
       )}
     </div>
+  );
+}
+
+// --- Watch List ---
+
+function WatchList({
+  flaggedPlayers,
+  onSavePlayerFlags,
+}: {
+  flaggedPlayers: FlaggedPlayer[];
+  onSavePlayerFlags: (playerId: string, playerName: string, team: string, flags: PlayerFlag[], notes: string) => void;
+}) {
+  if (flaggedPlayers.length === 0) {
+    return (
+      <div className="py-20 text-center">
+        <p className="text-4xl mb-3">⚑</p>
+        <p className="text-sm text-slate-400 dark:text-slate-500">
+          No players flagged yet. Use the ⚑ icon on any roster row to flag a player.
+        </p>
+      </div>
+    );
+  }
+
+  const sorted = [...flaggedPlayers].sort((a, b) =>
+    a.team.localeCompare(b.team) || a.playerName.localeCompare(b.playerName),
+  );
+
+  return (
+    <ul className="space-y-2.5">
+      {sorted.map(fp => (
+        <WatchCard
+          key={fp.id}
+          fp={fp}
+          onSave={(flags, notes) => onSavePlayerFlags(fp.playerId, fp.playerName, fp.team, flags, notes)}
+          onDelete={() => onSavePlayerFlags(fp.playerId, fp.playerName, fp.team, [], '')}
+        />
+      ))}
+    </ul>
+  );
+}
+
+function WatchCard({
+  fp,
+  onSave,
+  onDelete,
+}: {
+  fp: FlaggedPlayer;
+  onSave: (flags: PlayerFlag[], notes: string) => void;
+  onDelete: () => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [localFlags, setLocalFlags] = useState<PlayerFlag[]>([]);
+  const [localNotes, setLocalNotes] = useState('');
+
+  function startEdit() {
+    setLocalFlags(fp.flags);
+    setLocalNotes(fp.notes ?? '');
+    setEditing(true);
+  }
+
+  return (
+    <li className="animate-fade-up bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl shadow-sm">
+      <div className="flex items-start gap-3 p-4 group">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap mb-1">
+            <span className="text-sm font-semibold text-slate-800 dark:text-slate-100">{fp.playerName}</span>
+            {fp.team && <TeamChip team={fp.team} />}
+            {fp.flags.map(f => <FlagBadge key={f} flag={f} />)}
+            {fp.faId && (
+              <span className="text-[9px] font-bold px-1.5 py-0.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-md">
+                FA synced
+              </span>
+            )}
+          </div>
+          {fp.notes && !editing && (
+            <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">{fp.notes}</p>
+          )}
+        </div>
+
+        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+          <button
+            type="button"
+            onClick={startEdit}
+            className="p-1.5 text-slate-300 dark:text-slate-600 hover:text-blue-500 dark:hover:text-blue-400 rounded-lg transition-colors text-xs"
+            title="Edit flags"
+          >
+            ✎
+          </button>
+          <button
+            type="button"
+            onClick={() => { if (window.confirm(`Remove all flags for ${fp.playerName}?`)) onDelete(); }}
+            className="p-1.5 text-slate-300 dark:text-slate-600 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors text-lg leading-none"
+          >
+            ×
+          </button>
+        </div>
+      </div>
+
+      {editing && (
+        <div className="border-t border-slate-100 dark:border-slate-700 px-4 pb-4 pt-3 space-y-3 animate-fade-up">
+          <div className="flex flex-wrap gap-2">
+            {ALL_FLAGS.map(flag => {
+              const meta = FLAG_META[flag];
+              const active = localFlags.includes(flag);
+              return (
+                <button
+                  key={flag}
+                  type="button"
+                  onClick={() =>
+                    setLocalFlags(prev =>
+                      active ? prev.filter(f => f !== flag) : [...prev, flag],
+                    )
+                  }
+                  className={`text-xs font-semibold px-2.5 py-1.5 rounded-lg border transition-all ${
+                    active
+                      ? `${meta.className} border-current/20`
+                      : 'bg-slate-50 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
+                  }`}
+                >
+                  {meta.label}
+                </button>
+              );
+            })}
+          </div>
+          <textarea
+            value={localNotes}
+            onChange={e => setLocalNotes(e.target.value)}
+            rows={2}
+            placeholder="Notes…"
+            className="w-full text-xs border border-slate-200 dark:border-slate-600 rounded-lg px-2.5 py-1.5 bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 outline-none focus:bg-white dark:focus:bg-slate-800 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 resize-none transition-colors"
+          />
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => { onSave(localFlags, localNotes); setEditing(false); }}
+              className="text-xs px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all active:scale-95 font-medium"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              onClick={() => setEditing(false)}
+              className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 px-1 transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+    </li>
   );
 }
 
@@ -123,7 +315,6 @@ function RumorCard({ rumor, onDelete }: { rumor: Rumor; onDelete: () => void }) 
 
   return (
     <li className="animate-fade-up group bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-slate-200 dark:hover:border-slate-600 transition-all duration-200">
-      {/* Meta row */}
       <div className="flex items-center gap-2 flex-wrap mb-3">
         <span className="text-xs text-slate-400 dark:text-slate-500 font-medium">{formatDate(rumor.createdAt)}</span>
         {rumor.source && (
@@ -135,18 +326,11 @@ function RumorCard({ rumor, onDelete }: { rumor: Rumor; onDelete: () => void }) 
           </>
         )}
         {rumor.teams.map(t => (
-          <span
-            key={t}
-            className="text-xs px-2 py-0.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg font-semibold"
-          >
-            {t}
-          </span>
+          <TeamChip key={t} team={t} />
         ))}
         <button
           type="button"
-          onClick={() => {
-            if (window.confirm('Remove this rumor?')) onDelete();
-          }}
+          onClick={() => { if (window.confirm('Remove this rumor?')) onDelete(); }}
           className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity w-6 h-6 rounded-lg flex items-center justify-center text-slate-300 dark:text-slate-600 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 text-base"
           title="Delete rumor"
         >
@@ -154,7 +338,6 @@ function RumorCard({ rumor, onDelete }: { rumor: Rumor; onDelete: () => void }) 
         </button>
       </div>
 
-      {/* Content */}
       <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">{displayText}</p>
       {isLong && (
         <button
@@ -207,7 +390,6 @@ function AddRumorForm({ onSubmit, onCancel }: AddRumorFormProps) {
     <div className="animate-scale-in mb-8 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-sm space-y-5">
       <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">New Rumor</p>
 
-      {/* Content */}
       <div>
         <textarea
           autoFocus
@@ -221,7 +403,6 @@ function AddRumorForm({ onSubmit, onCancel }: AddRumorFormProps) {
       </div>
 
       <div className="flex flex-wrap gap-4">
-        {/* Source */}
         <div className="flex-1 min-w-36">
           <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Source (optional)</label>
           <input
@@ -232,8 +413,6 @@ function AddRumorForm({ onSubmit, onCancel }: AddRumorFormProps) {
             className={inputCls}
           />
         </div>
-
-        {/* Date */}
         <div>
           <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Date</label>
           <input
@@ -246,7 +425,6 @@ function AddRumorForm({ onSubmit, onCancel }: AddRumorFormProps) {
         </div>
       </div>
 
-      {/* Teams */}
       <div>
         <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-2">Teams mentioned (optional)</label>
         <div className="flex flex-wrap gap-1.5 mb-2">

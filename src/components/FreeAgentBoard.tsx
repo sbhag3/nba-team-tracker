@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { teams, teamMap } from '../data/teams';
 import type { FreeAgent } from '../lib/storage';
+import { TeamChip } from './TeamChip';
 
 function localToday() {
   const d = new Date();
@@ -44,6 +45,11 @@ function groupByTeam(list: FreeAgent[]): Array<{ teamId: string; label: string; 
     });
 }
 
+const FA_TYPE = {
+  rfa: { label: 'RFA', className: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400' },
+  ufa: { label: 'UFA', className: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400' },
+} as const;
+
 interface SignData {
   team: string;
   years?: number;
@@ -54,16 +60,17 @@ interface SignData {
 interface Props {
   freeAgents: FreeAgent[];
   onAdd: (data: Omit<FreeAgent, 'id'>) => void;
+  onUpdate: (id: string, data: Partial<FreeAgent>) => void;
   onSign: (id: string, data: SignData) => void;
   onUnsign: (id: string) => void;
   onDelete: (id: string) => void;
 }
 
-type FilterTab = 'all' | 'unsigned' | 'signed';
+type FilterTab = 'unsigned' | 'signed';
 
-export function FreeAgentBoard({ freeAgents, onAdd, onSign, onUnsign, onDelete }: Props) {
+export function FreeAgentBoard({ freeAgents, onAdd, onUpdate, onSign, onUnsign, onDelete }: Props) {
   const [showForm, setShowForm] = useState(false);
-  const [tab, setTab] = useState<FilterTab>('all');
+  const [tab, setTab] = useState<FilterTab>('unsigned');
   const [query, setQuery] = useState('');
 
   const unsigned = freeAgents.filter(fa => fa.status === 'unsigned');
@@ -78,8 +85,8 @@ export function FreeAgentBoard({ freeAgents, onAdd, onSign, onUnsign, onDelete }
         )
       : list;
 
-  const showUnsigned = tab !== 'signed';
-  const showSigned   = tab !== 'unsigned';
+  const showUnsigned = tab === 'unsigned';
+  const showSigned   = tab === 'signed';
 
   return (
     <div className="max-w-2xl mx-auto px-8 py-10">
@@ -102,7 +109,6 @@ export function FreeAgentBoard({ freeAgents, onAdd, onSign, onUnsign, onDelete }
         )}
       </div>
 
-      {/* Add form */}
       {showForm && (
         <AddFreeAgentForm
           onSubmit={data => { onAdd(data); setShowForm(false); }}
@@ -125,7 +131,7 @@ export function FreeAgentBoard({ freeAgents, onAdd, onSign, onUnsign, onDelete }
           />
         </div>
         <div className="flex items-center bg-slate-100 dark:bg-slate-800 rounded-xl p-1 gap-0.5">
-          {(['all', 'unsigned', 'signed'] as FilterTab[]).map(t => (
+          {(['unsigned', 'signed'] as FilterTab[]).map(t => (
             <button
               key={t}
               type="button"
@@ -148,7 +154,6 @@ export function FreeAgentBoard({ freeAgents, onAdd, onSign, onUnsign, onDelete }
         </div>
       </div>
 
-      {/* Empty state */}
       {freeAgents.length === 0 && (
         <div className="py-20 text-center">
           <p className="text-4xl mb-3">🏃</p>
@@ -164,11 +169,12 @@ export function FreeAgentBoard({ freeAgents, onAdd, onSign, onUnsign, onDelete }
           </p>
           <div className="space-y-6">
             {groupByTeam(filterFa(unsigned)).map(({ teamId, label, players }) => (
-              <TeamGroup key={teamId ?? '__none'} label={label}>
+              <TeamGroup key={teamId} label={label}>
                 {players.map(fa => (
                   <UnsignedCard
                     key={fa.id}
                     fa={fa}
+                    onUpdate={data => onUpdate(fa.id, data)}
                     onSign={data => onSign(fa.id, data)}
                     onDelete={() => onDelete(fa.id)}
                   />
@@ -187,11 +193,12 @@ export function FreeAgentBoard({ freeAgents, onAdd, onSign, onUnsign, onDelete }
           </p>
           <div className="space-y-6">
             {groupByTeam(filterFa(signed)).map(({ teamId, label, players }) => (
-              <TeamGroup key={teamId ?? '__none'} label={label}>
+              <TeamGroup key={teamId} label={label}>
                 {players.map(fa => (
                   <SignedCard
                     key={fa.id}
                     fa={fa}
+                    onUpdate={data => onUpdate(fa.id, data)}
                     onUnsign={() => onUnsign(fa.id)}
                     onDelete={() => onDelete(fa.id)}
                   />
@@ -202,7 +209,10 @@ export function FreeAgentBoard({ freeAgents, onAdd, onSign, onUnsign, onDelete }
         </div>
       )}
 
-      {freeAgents.length > 0 && filterFa(unsigned).length === 0 && filterFa(signed).length === 0 && (
+      {freeAgents.length > 0 && (
+        (tab === 'unsigned' && filterFa(unsigned).length === 0) ||
+        (tab === 'signed'   && filterFa(signed).length   === 0)
+      ) && (
         <p className="py-12 text-center text-sm text-slate-400 dark:text-slate-500">No matches</p>
       )}
     </div>
@@ -223,31 +233,41 @@ function TeamGroup({ label, children }: { label: string; children: ReactNode }) 
   );
 }
 
+// --- FA type badge ---
+
+function FaTypeBadge({ type }: { type: 'rfa' | 'ufa' }) {
+  const meta = FA_TYPE[type];
+  return (
+    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${meta.className}`}>
+      {meta.label}
+    </span>
+  );
+}
+
 // --- Unsigned card ---
 
 function UnsignedCard({
   fa,
+  onUpdate,
   onSign,
   onDelete,
 }: {
   fa: FreeAgent;
+  onUpdate: (data: Partial<FreeAgent>) => void;
   onSign: (data: SignData) => void;
   onDelete: () => void;
 }) {
-  const [signing, setSigning] = useState(false);
+  const [panel, setPanel] = useState<'sign' | 'edit' | null>(null);
+  const toggle = (p: 'sign' | 'edit') => setPanel(prev => prev === p ? null : p);
 
   return (
     <li className="animate-fade-up bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl shadow-sm overflow-hidden">
-      {/* Main row */}
       <div className="flex items-start gap-3 p-4 group">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap mb-1">
             <span className="text-sm font-semibold text-slate-800 dark:text-slate-100">{fa.name}</span>
-            {fa.previousTeam && (
-              <span className="text-xs font-bold px-1.5 py-0.5 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-md">
-                {fa.previousTeam}
-              </span>
-            )}
+            {fa.previousTeam && <TeamChip team={fa.previousTeam} />}
+            {fa.faType && <FaTypeBadge type={fa.faType} />}
             <span className="text-[10px] font-bold px-1.5 py-0.5 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-800 rounded-full uppercase tracking-wide">
               Unsigned
             </span>
@@ -259,14 +279,26 @@ function UnsignedCard({
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
           <button
             type="button"
-            onClick={() => setSigning(v => !v)}
+            onClick={() => toggle('edit')}
+            title="Edit player"
+            className={`p-1.5 rounded-lg text-xs transition-colors ${
+              panel === 'edit'
+                ? 'text-blue-500 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                : 'text-slate-300 dark:text-slate-600 hover:text-blue-500 dark:hover:text-blue-400'
+            }`}
+          >
+            ✎
+          </button>
+          <button
+            type="button"
+            onClick={() => toggle('sign')}
             className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all active:scale-95 ${
-              signing
+              panel === 'sign'
                 ? 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
                 : 'bg-blue-600 text-white hover:bg-blue-700'
             }`}
           >
-            {signing ? 'Cancel' : 'Sign'}
+            {panel === 'sign' ? 'Cancel' : 'Sign'}
           </button>
           <button
             type="button"
@@ -278,13 +310,11 @@ function UnsignedCard({
         </div>
       </div>
 
-      {/* Inline sign form */}
-      {signing && (
-        <SignForm
-          playerName={fa.name}
-          onSubmit={data => { onSign(data); setSigning(false); }}
-          onCancel={() => setSigning(false)}
-        />
+      {panel === 'edit' && (
+        <EditFaForm fa={fa} onSave={data => { onUpdate(data); setPanel(null); }} onCancel={() => setPanel(null)} />
+      )}
+      {panel === 'sign' && (
+        <SignForm playerName={fa.name} onSubmit={data => { onSign(data); setPanel(null); }} onCancel={() => setPanel(null)} />
       )}
     </li>
   );
@@ -294,46 +324,42 @@ function UnsignedCard({
 
 function SignedCard({
   fa,
+  onUpdate,
   onUnsign,
   onDelete,
 }: {
   fa: FreeAgent;
+  onUpdate: (data: Partial<FreeAgent>) => void;
   onUnsign: () => void;
   onDelete: () => void;
 }) {
+  const [editing, setEditing] = useState(false);
   const contract = fmtContract(fa);
 
   return (
-    <li className="animate-fade-up bg-white dark:bg-slate-800 border border-emerald-100 dark:border-emerald-900/40 rounded-2xl shadow-sm group">
+    <li className="animate-fade-up bg-white dark:bg-slate-800 border border-emerald-100 dark:border-emerald-900/40 rounded-2xl shadow-sm group overflow-hidden">
       <div className="flex items-start gap-3 p-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap mb-1.5">
             <span className="text-sm font-semibold text-slate-800 dark:text-slate-100">{fa.name}</span>
+            {fa.faType && <FaTypeBadge type={fa.faType} />}
             <span className="text-[10px] font-bold px-1.5 py-0.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/50 rounded-full uppercase tracking-wide">
               Signed
             </span>
           </div>
 
-          {/* Team flow */}
           <div className="flex items-center gap-1.5 flex-wrap mb-1.5">
             {fa.previousTeam && (
               <>
-                <span className="text-xs font-bold px-2 py-0.5 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-md">
-                  {fa.previousTeam}
-                </span>
+                <TeamChip team={fa.previousTeam} />
                 <svg className="w-3 h-3 text-slate-300 dark:text-slate-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </>
             )}
-            {fa.signedTeam && (
-              <span className="text-xs font-bold px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded-md">
-                {fa.signedTeam}
-              </span>
-            )}
+            {fa.signedTeam && <TeamChip team={fa.signedTeam} />}
           </div>
 
-          {/* Contract */}
           {contract && (
             <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{contract}</p>
           )}
@@ -343,6 +369,18 @@ function SignedCard({
         </div>
 
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+          <button
+            type="button"
+            onClick={() => setEditing(v => !v)}
+            title="Edit player"
+            className={`p-1.5 rounded-lg text-xs transition-colors ${
+              editing
+                ? 'text-blue-500 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                : 'text-slate-300 dark:text-slate-600 hover:text-blue-500 dark:hover:text-blue-400'
+            }`}
+          >
+            ✎
+          </button>
           <button
             type="button"
             onClick={() => { if (window.confirm(`Mark ${fa.name} as unsigned again? This will also remove them from the ${fa.signedTeam} roster.`)) onUnsign(); }}
@@ -359,7 +397,141 @@ function SignedCard({
           </button>
         </div>
       </div>
+
+      {editing && (
+        <EditFaForm fa={fa} onSave={data => { onUpdate(data); setEditing(false); }} onCancel={() => setEditing(false)} />
+      )}
     </li>
+  );
+}
+
+// --- Edit free agent form ---
+
+function EditFaForm({
+  fa,
+  onSave,
+  onCancel,
+}: {
+  fa: FreeAgent;
+  onSave: (data: Partial<FreeAgent>) => void;
+  onCancel: () => void;
+}) {
+  const [name, setName] = useState(fa.name);
+  const [previousTeam, setPreviousTeam] = useState(fa.previousTeam ?? '');
+  const [faType, setFaType] = useState<'' | 'rfa' | 'ufa'>(fa.faType ?? '');
+  const [notes, setNotes] = useState(fa.notes ?? '');
+  const [signedTeam, setSignedTeam] = useState(fa.signedTeam ?? '');
+  const [years, setYears] = useState(fa.contractYears?.toString() ?? '');
+  const [aav, setAav] = useState(fa.contractAav?.toString() ?? '');
+  const [signedAt, setSignedAt] = useState(fa.signedAt ?? localToday());
+
+  const inputCls = 'w-full text-sm border border-slate-200 dark:border-slate-600 rounded-xl px-3.5 py-2 bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 placeholder-slate-300 dark:placeholder-slate-600 outline-none focus:bg-white dark:focus:bg-slate-800 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all';
+
+  function save() {
+    const data: Partial<FreeAgent> = {
+      name: name.trim() || fa.name,
+      previousTeam: previousTeam || undefined,
+      faType: faType || undefined,
+      notes: notes.trim() || undefined,
+    };
+    if (fa.status === 'signed') {
+      data.signedTeam = signedTeam || undefined;
+      data.contractYears = years ? parseInt(years) : undefined;
+      data.contractAav = aav ? parseFloat(aav) : undefined;
+      data.signedAt = signedAt || undefined;
+    }
+    onSave(data);
+  }
+
+  return (
+    <div className="border-t border-slate-100 dark:border-slate-700 px-4 pb-4 pt-4 space-y-4 animate-fade-up bg-slate-50/50 dark:bg-slate-900/30">
+      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">Edit Player</p>
+
+      <div className="flex gap-4 flex-wrap">
+        <div className="flex-1 min-w-40">
+          <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Name</label>
+          <input
+            autoFocus
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') save(); if (e.key === 'Escape') onCancel(); }}
+            className={inputCls}
+          />
+        </div>
+        <div className="flex-1 min-w-40">
+          <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Previous Team</label>
+          <select value={previousTeam} onChange={e => setPreviousTeam(e.target.value)} className={inputCls}>
+            <option value="">None / Unknown</option>
+            {teams.map(t => <option key={t.id} value={t.id}>{t.id} – {t.market} {t.name}</option>)}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">FA Type</label>
+        <div className="flex gap-2">
+          {(['', 'rfa', 'ufa'] as const).map(v => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => setFaType(v)}
+              className={`text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all ${
+                faType === v
+                  ? v === 'rfa'
+                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800/50'
+                    : v === 'ufa'
+                    ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50'
+                    : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600'
+                  : 'bg-white dark:bg-slate-800 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
+              }`}
+            >
+              {v === '' ? 'None' : v.toUpperCase()}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {fa.status === 'signed' && (
+        <>
+          <div>
+            <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Signed Team</label>
+            <select value={signedTeam} onChange={e => setSignedTeam(e.target.value)} className={inputCls}>
+              <option value="">Select team…</option>
+              {teams.map(t => <option key={t.id} value={t.id}>{t.id} – {t.market} {t.name}</option>)}
+            </select>
+          </div>
+          <div className="flex gap-3 flex-wrap">
+            <div>
+              <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Years</label>
+              <input type="number" min={1} max={5} value={years} onChange={e => setYears(e.target.value)} placeholder="e.g. 3" className={`${inputCls} w-24`} />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">AAV ($M)</label>
+              <input type="number" min={0} step={0.1} value={aav} onChange={e => setAav(e.target.value)} placeholder="e.g. 35" className={`${inputCls} w-28`} />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Signed Date</label>
+              <input type="date" value={signedAt} onChange={e => setSignedAt(e.target.value)} className={inputCls} style={{ width: 'auto' }} />
+            </div>
+          </div>
+        </>
+      )}
+
+      <div>
+        <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Notes</label>
+        <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={2} placeholder="Optional notes…" className={`${inputCls} resize-none`} />
+      </div>
+
+      <div className="flex items-center gap-2">
+        <button type="button" onClick={save} className="px-5 py-2 text-sm font-semibold bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all active:scale-95">
+          Save
+        </button>
+        <button type="button" onClick={onCancel} className="px-3 py-2 text-sm text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+          Cancel
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -398,73 +570,35 @@ function SignForm({
         Signing {playerName}
       </p>
 
-      {/* Team */}
       <div>
         <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Team</label>
-        <select
-          value={team}
-          onChange={e => { setTeam(e.target.value); setError(''); }}
-          className={inputCls}
-          autoFocus
-        >
+        <select value={team} onChange={e => { setTeam(e.target.value); setError(''); }} className={inputCls} autoFocus>
           <option value="">Select team…</option>
-          {teams.map(t => (
-            <option key={t.id} value={t.id}>{t.id} – {t.market} {t.name}</option>
-          ))}
+          {teams.map(t => <option key={t.id} value={t.id}>{t.id} – {t.market} {t.name}</option>)}
         </select>
         {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
       </div>
 
-      {/* Contract */}
       <div className="flex gap-3 flex-wrap">
         <div>
           <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Years</label>
-          <input
-            type="number"
-            min={1}
-            max={5}
-            value={years}
-            onChange={e => setYears(e.target.value)}
-            placeholder="e.g. 3"
-            className={`${inputCls} w-24`}
-          />
+          <input type="number" min={1} max={5} value={years} onChange={e => setYears(e.target.value)} placeholder="e.g. 3" className={`${inputCls} w-24`} />
         </div>
         <div>
           <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">AAV ($M)</label>
-          <input
-            type="number"
-            min={0}
-            step={0.1}
-            value={aav}
-            onChange={e => setAav(e.target.value)}
-            placeholder="e.g. 35"
-            className={`${inputCls} w-28`}
-          />
+          <input type="number" min={0} step={0.1} value={aav} onChange={e => setAav(e.target.value)} placeholder="e.g. 35" className={`${inputCls} w-28`} />
         </div>
         <div>
           <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Date</label>
-          <input
-            type="date"
-            value={date}
-            onChange={e => setDate(e.target.value)}
-            className={inputCls}
-          />
+          <input type="date" value={date} onChange={e => setDate(e.target.value)} className={inputCls} />
         </div>
       </div>
 
       <div className="flex items-center gap-2">
-        <button
-          type="button"
-          onClick={submit}
-          className="px-5 py-2 text-sm font-semibold bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-all active:scale-95"
-        >
+        <button type="button" onClick={submit} className="px-5 py-2 text-sm font-semibold bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-all active:scale-95">
           Confirm Signing
         </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="px-3 py-2 text-sm text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
-        >
+        <button type="button" onClick={onCancel} className="px-3 py-2 text-sm text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
           Cancel
         </button>
       </div>
@@ -483,6 +617,7 @@ function AddFreeAgentForm({
 }) {
   const [name, setName] = useState('');
   const [previousTeam, setPreviousTeam] = useState('');
+  const [faType, setFaType] = useState<'' | 'rfa' | 'ufa'>('');
   const [notes, setNotes] = useState('');
   const [error, setError] = useState('');
 
@@ -493,6 +628,7 @@ function AddFreeAgentForm({
     onSubmit({
       name: name.trim(),
       previousTeam: previousTeam || undefined,
+      faType: faType || undefined,
       status: 'unsigned',
       addedAt: localToday(),
       notes: notes.trim() || undefined,
@@ -503,7 +639,6 @@ function AddFreeAgentForm({
     <div className="animate-scale-in mb-8 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-sm space-y-4">
       <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">New Free Agent</p>
 
-      {/* Name */}
       <div>
         <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Player Name</label>
         <input
@@ -518,22 +653,39 @@ function AddFreeAgentForm({
         {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
       </div>
 
-      {/* Previous team */}
-      <div>
-        <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Previous Team (optional)</label>
-        <select
-          value={previousTeam}
-          onChange={e => setPreviousTeam(e.target.value)}
-          className={inputCls}
-        >
-          <option value="">None / Unknown</option>
-          {teams.map(t => (
-            <option key={t.id} value={t.id}>{t.id} – {t.market} {t.name}</option>
-          ))}
-        </select>
+      <div className="flex gap-4 flex-wrap">
+        <div className="flex-1 min-w-40">
+          <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Previous Team (optional)</label>
+          <select value={previousTeam} onChange={e => setPreviousTeam(e.target.value)} className={inputCls}>
+            <option value="">None / Unknown</option>
+            {teams.map(t => <option key={t.id} value={t.id}>{t.id} – {t.market} {t.name}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">FA Type</label>
+          <div className="flex gap-2">
+            {(['', 'rfa', 'ufa'] as const).map(v => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => setFaType(v)}
+                className={`text-xs font-semibold px-3 py-2 rounded-xl border transition-all ${
+                  faType === v
+                    ? v === 'rfa'
+                      ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800/50'
+                      : v === 'ufa'
+                      ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50'
+                      : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600'
+                    : 'bg-slate-50 dark:bg-slate-900 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'
+                }`}
+              >
+                {v === '' ? 'None' : v.toUpperCase()}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Notes */}
       <div>
         <label className="block text-xs font-medium text-slate-400 dark:text-slate-500 mb-1.5">Notes (optional)</label>
         <textarea
@@ -546,18 +698,10 @@ function AddFreeAgentForm({
       </div>
 
       <div className="flex items-center gap-2 pt-1">
-        <button
-          type="button"
-          onClick={submit}
-          className="px-5 py-2 text-sm font-semibold bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all active:scale-95"
-        >
+        <button type="button" onClick={submit} className="px-5 py-2 text-sm font-semibold bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all active:scale-95">
           Add
         </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="px-3 py-2 text-sm text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
-        >
+        <button type="button" onClick={onCancel} className="px-3 py-2 text-sm text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
           Cancel
         </button>
       </div>

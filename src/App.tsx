@@ -17,8 +17,10 @@ import {
   loadAddedPlayers, saveAddedPlayers,
   loadRumors, saveRumors,
   loadFreeAgents, saveFreeAgents,
+  loadFlaggedPlayers, saveFlaggedPlayers,
 } from './lib/storage';
-import type { SalaryEdits, AddedPlayer, Rumor, FreeAgent } from './lib/storage';
+import type { SalaryEdits, AddedPlayer, Rumor, FreeAgent, FlaggedPlayer } from './lib/storage';
+import type { PlayerFlag } from './data/playerFlags';
 
 const seed = buildSeed();
 
@@ -39,9 +41,9 @@ export default function App() {
   const [addedPlayers, setAddedPlayers] = useState<AddedPlayer[]>(() => loadAddedPlayers());
   const [rumors, setRumors] = useState<Rumor[]>(() => loadRumors());
   const [freeAgents, setFreeAgents] = useState<FreeAgent[]>(() => loadFreeAgents());
-  const [view, setView] = useState<'roster' | 'rumors' | 'freeagents'>('roster');
+  const [flaggedPlayers, setFlaggedPlayers] = useState<FlaggedPlayer[]>(() => loadFlaggedPlayers());
+  const [view, setView] = useState<'roster' | 'rumors' | 'freeagents' | 'history'>('roster');
   const [showBuilder, setShowBuilder] = useState(false);
-  const [showHistory, setShowHistory] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [asOfDate, setAsOfDate] = useState<string>('');
   const [importError, setImportError] = useState<string | null>(null);
@@ -65,6 +67,7 @@ export default function App() {
   useEffect(() => { saveAddedPlayers(addedPlayers); }, [addedPlayers]);
   useEffect(() => { saveRumors(rumors); }, [rumors]);
   useEffect(() => { saveFreeAgents(freeAgents); }, [freeAgents]);
+  useEffect(() => { saveFlaggedPlayers(flaggedPlayers); }, [flaggedPlayers]);
 
   const dynamicSeed = useMemo(() => {
     if (addedPlayers.length === 0) return seed;
@@ -137,6 +140,10 @@ export default function App() {
     setFreeAgents(prev => [...prev, { ...data, id: `fa-${Date.now()}` }]);
   }
 
+  function handleUpdateFreeAgent(id: string, data: Partial<FreeAgent>) {
+    setFreeAgents(prev => prev.map(f => f.id === id ? { ...f, ...data } : f));
+  }
+
   function handleSignFreeAgent(
     id: string,
     data: { team: string; years?: number; aav?: number; signedAt: string },
@@ -180,6 +187,38 @@ export default function App() {
       if (addedEntry) handleDeleteAddedPlayer(addedEntry.id);
     }
     setFreeAgents(prev => prev.filter(f => f.id !== id));
+  }
+
+  function handleSavePlayerFlags(
+    playerId: string,
+    playerName: string,
+    team: string,
+    flags: PlayerFlag[],
+    notes: string,
+  ) {
+    if (flags.length === 0) {
+      setFlaggedPlayers(prev => prev.filter(fp => fp.playerId !== playerId));
+      return;
+    }
+    setFlaggedPlayers(prev => {
+      const existing = prev.find(fp => fp.playerId === playerId);
+      if (existing) {
+        return prev.map(fp =>
+          fp.playerId === playerId
+            ? { ...fp, flags, notes: notes.trim() || undefined, team }
+            : fp,
+        );
+      }
+      return [...prev, {
+        id: `flag-${Date.now()}-${Math.random().toString(36).slice(2, 5)}`,
+        playerId,
+        playerName,
+        team,
+        flags,
+        notes: notes.trim() || undefined,
+        addedAt: new Date().toISOString().slice(0, 10),
+      }];
+    });
   }
 
   async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
@@ -265,15 +304,6 @@ export default function App() {
 
             <div className="w-px h-5 bg-slate-200" />
 
-            <button
-              type="button"
-              onClick={() => setShowHistory(true)}
-              className="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all active:scale-95"
-            >
-              History
-              {trades.length > 0 && <span className="ml-1.5 text-xs text-slate-400 dark:text-slate-500">({trades.length})</span>}
-            </button>
-
             <div className="w-px h-5 bg-slate-200 dark:bg-slate-700" />
 
             <button
@@ -319,16 +349,25 @@ export default function App() {
         )}
 
         <main className="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-950">
-          {view === 'rumors' ? (
+          {view === 'history' ? (
+            <TradeHistory
+              trades={trades}
+              onDelete={handleDeleteTrade}
+              onNewTrade={() => setShowBuilder(true)}
+            />
+          ) : view === 'rumors' ? (
             <RumorBoard
               rumors={rumors}
               onAdd={handleAddRumor}
               onDelete={handleDeleteRumor}
+              flaggedPlayers={flaggedPlayers}
+              onSavePlayerFlags={handleSavePlayerFlags}
             />
           ) : view === 'freeagents' ? (
             <FreeAgentBoard
               freeAgents={freeAgents}
               onAdd={handleAddFreeAgent}
+              onUpdate={handleUpdateFreeAgent}
               onSign={handleSignFreeAgent}
               onUnsign={handleUnsignFreeAgent}
               onDelete={handleDeleteFreeAgent}
@@ -345,6 +384,8 @@ export default function App() {
               addedPlayerIds={addedPlayerIds}
               onAddPlayer={handleAddPlayer}
               onDeleteAddedPlayer={handleDeleteAddedPlayer}
+              flaggedPlayers={flaggedPlayers}
+              onSavePlayerFlags={handleSavePlayerFlags}
             />
           )}
         </main>
@@ -352,9 +393,6 @@ export default function App() {
 
       {showBuilder && (
         <TradeBuilder state={state} onSubmit={handleTrade} onCancel={() => setShowBuilder(false)} />
-      )}
-      {showHistory && (
-        <TradeHistory trades={trades} onDelete={handleDeleteTrade} onClose={() => setShowHistory(false)} />
       )}
       {showSearch && (
         <PlayerSearch state={state} onClose={() => setShowSearch(false)} />

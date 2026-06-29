@@ -1,7 +1,7 @@
 import { teams } from '../data/teams';
 import type { TeamId } from '../domain/nba-trade-tracker-schema';
 
-type PageView = 'rumors' | 'freeagents';
+type PageView = 'rumors' | 'freeagents' | 'history';
 
 interface Props {
   selected: TeamId;
@@ -11,6 +11,7 @@ interface Props {
 }
 
 const pages: { id: PageView; label: string; icon: string }[] = [
+  { id: 'history',    label: 'Trade History',  icon: '🔄' },
   { id: 'rumors',     label: 'Bulletin Board', icon: '📋' },
   { id: 'freeagents', label: 'Free Agents',    icon: '🏃' },
 ];
