@@ -1,32 +1,54 @@
-# React + TypeScript + Vite
+# NBA Trade Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A personal dashboard for tracking NBA rosters, trades, free agency, and trade rumors — all stored locally in your browser with no backend required.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Roster Management
+- View current rosters for all 30 NBA teams, sorted by salary
+- Player salaries seeded from the ESPN API (run once at build time)
+- Manually override any player's salary
+- Add custom players to any roster
+- Remove players permanently from a roster
 
-## React Compiler
+### Trade Engine
+- Build and submit trades between 2+ teams — rosters update immediately
+- Log historical trades that are already reflected in the rosters (record-only, no roster change)
+- Time-travel: view roster state as of any past date
+- Export and import trade history as JSON
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Free Agency
+- Track unsigned free agents grouped by their former team
+- Record signings with team, contract years, and AAV — the player is added to the new team's roster automatically
+- Mark a player as unsigned again to revert the roster change
+- Filter by unsigned / signed, or search by name or team
 
-## Expanding the Oxlint configuration
+### Bulletin Board
+- Log trade rumors with source, date, and teams mentioned
+- Search and filter by team or keyword
+- Expand long rumors inline
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+### Player Search
+- Global search across all ~450 NBA players showing their current team
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## Tech Stack
+
+- **React + TypeScript** — component UI
+- **Vite** — dev server and build
+- **Tailwind CSS v4** — styling and dark mode
+- **localStorage** — all data persisted client-side, no backend
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+To refresh salary data from ESPN (requires Node):
+
+```bash
+npx tsx scripts/fetch-rosters.ts
+```
+
+This regenerates `src/data/seed-rosters.json` with current salary figures and rebuilds the seed state.

@@ -6,6 +6,7 @@ import { playerMap } from './domain/seed';
 import { TeamSidebar } from './components/TeamSidebar';
 import { TeamDashboard } from './components/TeamDashboard';
 import { RumorBoard } from './components/RumorBoard';
+import { FreeAgentBoard } from './components/FreeAgentBoard';
 import { TradeBuilder } from './components/TradeBuilder';
 import { TradeHistory } from './components/TradeHistory';
 import { PlayerSearch } from './components/PlayerSearch';
@@ -15,8 +16,9 @@ import {
   loadRemoved, saveRemoved,
   loadAddedPlayers, saveAddedPlayers,
   loadRumors, saveRumors,
+  loadFreeAgents, saveFreeAgents,
 } from './lib/storage';
-import type { SalaryEdits, AddedPlayer, Rumor } from './lib/storage';
+import type { SalaryEdits, AddedPlayer, Rumor, FreeAgent } from './lib/storage';
 
 const seed = buildSeed();
 
@@ -36,7 +38,8 @@ export default function App() {
   );
   const [addedPlayers, setAddedPlayers] = useState<AddedPlayer[]>(() => loadAddedPlayers());
   const [rumors, setRumors] = useState<Rumor[]>(() => loadRumors());
-  const [view, setView] = useState<'roster' | 'rumors'>('roster');
+  const [freeAgents, setFreeAgents] = useState<FreeAgent[]>(() => loadFreeAgents());
+  const [view, setView] = useState<'roster' | 'rumors' | 'freeagents'>('roster');
   const [showBuilder, setShowBuilder] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -61,6 +64,7 @@ export default function App() {
   }, [removedPlayers]);
   useEffect(() => { saveAddedPlayers(addedPlayers); }, [addedPlayers]);
   useEffect(() => { saveRumors(rumors); }, [rumors]);
+  useEffect(() => { saveFreeAgents(freeAgents); }, [freeAgents]);
 
   const dynamicSeed = useMemo(() => {
     if (addedPlayers.length === 0) return seed;
@@ -96,10 +100,6 @@ export default function App() {
     setRemovedPlayers(prev => { const next = new Set(prev); next.add(id); return next; });
   }
 
-  function handleRestorePlayer(id: string) {
-    setRemovedPlayers(prev => { const next = new Set(prev); next.delete(id); return next; });
-  }
-
   function handleAddPlayer(fullName: string, team: string) {
     const id = `custom-p-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
     (playerMap as Record<string, string>)[id] = fullName;
@@ -133,6 +133,55 @@ export default function App() {
     setRumors(prev => prev.filter(r => r.id !== id));
   }
 
+  function handleAddFreeAgent(data: Omit<FreeAgent, 'id'>) {
+    setFreeAgents(prev => [...prev, { ...data, id: `fa-${Date.now()}` }]);
+  }
+
+  function handleSignFreeAgent(
+    id: string,
+    data: { team: string; years?: number; aav?: number; signedAt: string },
+  ) {
+    const fa = freeAgents.find(f => f.id === id);
+    if (!fa) return;
+    // Add the player to the signed team's roster immediately
+    handleAddPlayer(fa.name, data.team);
+    setFreeAgents(prev =>
+      prev.map(f =>
+        f.id === id
+          ? { ...f, status: 'signed' as const, signedTeam: data.team, contractYears: data.years, contractAav: data.aav, signedAt: data.signedAt }
+          : f,
+      ),
+    );
+  }
+
+  function handleUnsignFreeAgent(id: string) {
+    const fa = freeAgents.find(f => f.id === id);
+    if (!fa) return;
+    // Remove from roster: find the custom player entry that was added when signing
+    const addedEntry = addedPlayers.find(
+      p => p.fullName === fa.name && p.team === fa.signedTeam,
+    );
+    if (addedEntry) handleDeleteAddedPlayer(addedEntry.id);
+    setFreeAgents(prev =>
+      prev.map(f =>
+        f.id === id
+          ? { ...f, status: 'unsigned' as const, signedTeam: undefined, contractYears: undefined, contractAav: undefined, signedAt: undefined }
+          : f,
+      ),
+    );
+  }
+
+  function handleDeleteFreeAgent(id: string) {
+    const fa = freeAgents.find(f => f.id === id);
+    if (fa?.status === 'signed') {
+      const addedEntry = addedPlayers.find(
+        p => p.fullName === fa.name && p.team === fa.signedTeam,
+      );
+      if (addedEntry) handleDeleteAddedPlayer(addedEntry.id);
+    }
+    setFreeAgents(prev => prev.filter(f => f.id !== id));
+  }
+
   async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -151,7 +200,12 @@ export default function App() {
 
   return (
     <div className="flex min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100">
-      <TeamSidebar selected={selectedTeam} onSelect={id => { setSelectedTeam(id); setView('roster'); }} />
+      <TeamSidebar
+        selected={selectedTeam}
+        view={view}
+        onSelect={id => { setSelectedTeam(id); setView('roster'); }}
+        onPageSelect={page => setView(page)}
+      />
 
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
@@ -213,19 +267,6 @@ export default function App() {
 
             <button
               type="button"
-              onClick={() => setView(v => v === 'rumors' ? 'roster' : 'rumors')}
-              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all active:scale-95 ${
-                view === 'rumors'
-                  ? 'bg-amber-500 text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800'
-              }`}
-            >
-              Bulletin Board
-              {rumors.length > 0 && <span className="ml-1.5 text-xs opacity-70">({rumors.length})</span>}
-            </button>
-
-            <button
-              type="button"
               onClick={() => setShowHistory(true)}
               className="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all active:scale-95"
             >
@@ -284,6 +325,14 @@ export default function App() {
               onAdd={handleAddRumor}
               onDelete={handleDeleteRumor}
             />
+          ) : view === 'freeagents' ? (
+            <FreeAgentBoard
+              freeAgents={freeAgents}
+              onAdd={handleAddFreeAgent}
+              onSign={handleSignFreeAgent}
+              onUnsign={handleUnsignFreeAgent}
+              onDelete={handleDeleteFreeAgent}
+            />
           ) : (
             <TeamDashboard
               state={state}
@@ -293,7 +342,6 @@ export default function App() {
               onSalaryEdit={handleSalaryEdit}
               removedPlayers={removedPlayers}
               onRemovePlayer={handleRemovePlayer}
-              onRestorePlayer={handleRestorePlayer}
               addedPlayerIds={addedPlayerIds}
               onAddPlayer={handleAddPlayer}
               onDeleteAddedPlayer={handleDeleteAddedPlayer}

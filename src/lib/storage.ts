@@ -146,6 +146,32 @@ export function saveRumors(rumors: Rumor[]): void {
   localStorage.setItem(RUMORS_KEY, JSON.stringify(rumors));
 }
 
+export interface FreeAgent {
+  id: string;
+  name: string;
+  previousTeam?: string;   // team ID they left (for display only)
+  status: 'unsigned' | 'signed';
+  signedTeam?: string;     // team ID they signed with
+  contractYears?: number;
+  contractAav?: number;    // annual avg value in millions
+  addedAt: string;         // ISO date YYYY-MM-DD
+  signedAt?: string;       // ISO date YYYY-MM-DD
+  notes?: string;
+}
+
+const FREE_AGENTS_KEY = 'nba-free-agents';
+
+export function loadFreeAgents(): FreeAgent[] {
+  try {
+    const raw = localStorage.getItem(FREE_AGENTS_KEY);
+    return raw ? (JSON.parse(raw) as FreeAgent[]) : [];
+  } catch { return []; }
+}
+
+export function saveFreeAgents(fas: FreeAgent[]): void {
+  localStorage.setItem(FREE_AGENTS_KEY, JSON.stringify(fas));
+}
+
 export function readImportFile(file: File): Promise<Trade[]> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

@@ -22,9 +22,21 @@ export function PlayerSearch({ state, onClose }: Props) {
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
-    return Object.entries(playerMap)
-      .filter(([, name]) => name.toLowerCase().includes(q))
-      .map(([id, name]) => ({ id, name, team: playerTeam[id] ?? null }))
+
+    // Deduplicate by name — when there are two entries for the same player
+    // (seed ID + custom ID from a signing/manual add), prefer the one with a current team.
+    const byName = new Map<string, { id: string; name: string; team: string | null }>();
+    for (const [id, name] of Object.entries(playerMap)) {
+      if (!name.toLowerCase().includes(q)) continue;
+      const key = name.toLowerCase();
+      const team = playerTeam[id] ?? null;
+      const existing = byName.get(key);
+      if (!existing || (team !== null && existing.team === null)) {
+        byName.set(key, { id, name, team });
+      }
+    }
+
+    return Array.from(byName.values())
       .sort((a, b) => a.name.localeCompare(b.name))
       .slice(0, 30);
   }, [query, playerTeam]);

@@ -13,7 +13,6 @@ interface Props {
   onSalaryEdit: (playerId: string, salary: number | null) => void;
   removedPlayers: Set<string>;
   onRemovePlayer: (id: string) => void;
-  onRestorePlayer: (id: string) => void;
   addedPlayerIds: Set<string>;
   onAddPlayer: (name: string, team: string) => void;
   onDeleteAddedPlayer: (id: string) => void;
@@ -21,17 +20,15 @@ interface Props {
 
 export function TeamDashboard({
   state, team, trades, salaryEdits, onSalaryEdit,
-  removedPlayers, onRemovePlayer, onRestorePlayer,
+  removedPlayers, onRemovePlayer,
   addedPlayerIds, onAddPlayer, onDeleteAddedPlayer,
 }: Props) {
   const [query, setQuery] = useState('');
-  const [showRemoved, setShowRemoved] = useState(false);
   const [showAddPlayer, setShowAddPlayer] = useState(false);
 
   const teamInfo = teamMap[team];
   const allRosterIds = teamRoster(state, team);
   const activeIds = allRosterIds.filter(id => !removedPlayers.has(id));
-  const removedIds = allRosterIds.filter(id => removedPlayers.has(id));
 
   const resolvedSalary = (id: string): number | null =>
     salaryEdits[id] ?? salaryMap[id] ?? null;
@@ -144,37 +141,6 @@ export function TeamDashboard({
           />
         )}
       </div>
-
-      {/* Removed players */}
-      {removedIds.length > 0 && (
-        <div className="mt-6">
-          <button
-            type="button"
-            onClick={() => setShowRemoved(v => !v)}
-            className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
-          >
-            {showRemoved ? '↑ Hide' : '↓ Show'} removed ({removedIds.length})
-          </button>
-          {showRemoved && (
-            <ul className="mt-2 space-y-1 animate-fade-up">
-              {removedIds.map(id => (
-                <li key={id} className="flex items-center gap-2 group py-1 px-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/60">
-                  <span className="text-sm text-slate-300 dark:text-slate-600 line-through flex-1">
-                    {playerMap[id] ?? id}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => onRestorePlayer(id)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity text-xs text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 font-medium"
-                  >
-                    Restore
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
     </div>
   );
 }
