@@ -125,6 +125,27 @@ export function saveSalaryEdits(edits: SalaryEdits): void {
   localStorage.setItem(SALARY_EDITS_KEY, JSON.stringify(edits));
 }
 
+export interface Rumor {
+  id: string;
+  createdAt: string; // ISO date
+  teams: string[];   // team IDs mentioned
+  source?: string;   // e.g. "Woj", "@shamscharania"
+  content: string;
+}
+
+const RUMORS_KEY = 'nba-trade-tracker-rumors';
+
+export function loadRumors(): Rumor[] {
+  try {
+    const raw = localStorage.getItem(RUMORS_KEY);
+    return raw ? (JSON.parse(raw) as Rumor[]) : [];
+  } catch { return []; }
+}
+
+export function saveRumors(rumors: Rumor[]): void {
+  localStorage.setItem(RUMORS_KEY, JSON.stringify(rumors));
+}
+
 export function readImportFile(file: File): Promise<Trade[]> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

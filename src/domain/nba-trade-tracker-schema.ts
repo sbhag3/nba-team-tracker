@@ -77,6 +77,9 @@ export interface Trade {
   teams: TeamId[];     // every team involved
   movements: AssetMovement[];
   description?: string; // human-readable summary
+  // When true, trade is logged for reference only — not applied to state.
+  // Use this for trades whose effects are already baked into the seed roster.
+  historical?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -166,6 +169,7 @@ export function applyTrade(state: LeagueState, trade: Trade): ApplyResult {
 // Sorting by date means you can insert a forgotten older trade and just replay.
 export function project(seed: LeagueState, trades: Trade[]): LeagueState {
   return [...trades]
+    .filter(t => !t.historical)
     .sort((a, b) => a.date.localeCompare(b.date))
     .reduce((state, t) => {
       const r = applyTrade(state, t);

@@ -5,6 +5,7 @@ import { buildSeed } from './domain/seed';
 import { playerMap } from './domain/seed';
 import { TeamSidebar } from './components/TeamSidebar';
 import { TeamDashboard } from './components/TeamDashboard';
+import { RumorBoard } from './components/RumorBoard';
 import { TradeBuilder } from './components/TradeBuilder';
 import { TradeHistory } from './components/TradeHistory';
 import { PlayerSearch } from './components/PlayerSearch';
@@ -13,8 +14,9 @@ import {
   loadSalaryEdits, saveSalaryEdits,
   loadRemoved, saveRemoved,
   loadAddedPlayers, saveAddedPlayers,
+  loadRumors, saveRumors,
 } from './lib/storage';
-import type { SalaryEdits, AddedPlayer } from './lib/storage';
+import type { SalaryEdits, AddedPlayer, Rumor } from './lib/storage';
 
 const seed = buildSeed();
 
@@ -33,12 +35,24 @@ export default function App() {
     () => new Set(loadRemoved().players),
   );
   const [addedPlayers, setAddedPlayers] = useState<AddedPlayer[]>(() => loadAddedPlayers());
+  const [rumors, setRumors] = useState<Rumor[]>(() => loadRumors());
+  const [view, setView] = useState<'roster' | 'rumors'>('roster');
   const [showBuilder, setShowBuilder] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [asOfDate, setAsOfDate] = useState<string>('');
   const [importError, setImportError] = useState<string | null>(null);
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode');
+    if (saved !== null) return saved === 'true';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
   const importRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', darkMode);
+    localStorage.setItem('darkMode', String(darkMode));
+  }, [darkMode]);
 
   useEffect(() => { saveTrades(trades); }, [trades]);
   useEffect(() => { saveSalaryEdits(salaryEdits); }, [salaryEdits]);
@@ -46,6 +60,7 @@ export default function App() {
     saveRemoved({ players: [...removedPlayers], picks: [] });
   }, [removedPlayers]);
   useEffect(() => { saveAddedPlayers(addedPlayers); }, [addedPlayers]);
+  useEffect(() => { saveRumors(rumors); }, [rumors]);
 
   const dynamicSeed = useMemo(() => {
     if (addedPlayers.length === 0) return seed;
@@ -109,6 +124,15 @@ export default function App() {
     });
   }
 
+  function handleAddRumor(data: Omit<Rumor, 'id'>) {
+    const rumor: Rumor = { id: `rumor-${Date.now()}`, ...data };
+    setRumors(prev => [...prev, rumor].sort((a, b) => b.createdAt.localeCompare(a.createdAt)));
+  }
+
+  function handleDeleteRumor(id: string) {
+    setRumors(prev => prev.filter(r => r.id !== id));
+  }
+
   async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -126,73 +150,112 @@ export default function App() {
   const hiddenTradeCount = trades.length - activeTrades.length;
 
   return (
-    <div className="flex min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-      <TeamSidebar selected={selectedTeam} onSelect={setSelectedTeam} />
+    <div className="flex min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+      <TeamSidebar selected={selectedTeam} onSelect={id => { setSelectedTeam(id); setView('roster'); }} />
 
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <header className="flex items-center justify-between px-6 py-3 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-900 z-10 gap-3">
-          <h1 className="text-base font-semibold text-gray-700 dark:text-gray-200 tracking-tight shrink-0">
-            NBA Trade Tracker
-          </h1>
-
+        <header className="flex items-center gap-3 px-6 h-14 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 sticky top-0 z-10 shadow-sm">
           {/* Time travel */}
-          <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-            <label htmlFor="asof" className="shrink-0">As of</label>
+          <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+            <label htmlFor="asof" className="text-xs text-slate-400 dark:text-slate-500 shrink-0">As of</label>
             <input
               id="asof"
               type="date"
               value={asOfDate}
               onChange={e => setAsOfDate(e.target.value)}
-              className="text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200"
+              className="text-xs border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-colors"
             />
             {timeTravelling && (
               <button
                 type="button"
                 onClick={() => setAsOfDate('')}
-                className="text-blue-500 hover:text-blue-700 dark:hover:text-blue-300 underline shrink-0"
+                className="text-xs text-blue-500 hover:text-blue-700 font-medium transition-colors"
               >
-                clear
+                Clear
               </button>
             )}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex-1" />
+
+          <div className="flex items-center gap-1.5">
+            {/* Dark mode toggle */}
+            <button
+              type="button"
+              onClick={() => setDarkMode(v => !v)}
+              title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all active:scale-95"
+            >
+              {darkMode ? (
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                </svg>
+              ) : (
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              )}
+            </button>
+
             <button
               type="button"
               onClick={() => setShowSearch(true)}
-              className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               title="Search players"
+              className="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all active:scale-95"
             >
-              🔍
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
             </button>
+
+            <div className="w-px h-5 bg-slate-200" />
+
+            <button
+              type="button"
+              onClick={() => setView(v => v === 'rumors' ? 'roster' : 'rumors')}
+              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all active:scale-95 ${
+                view === 'rumors'
+                  ? 'bg-amber-500 text-white shadow-sm'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800'
+              }`}
+            >
+              Bulletin Board
+              {rumors.length > 0 && <span className="ml-1.5 text-xs opacity-70">({rumors.length})</span>}
+            </button>
+
             <button
               type="button"
               onClick={() => setShowHistory(true)}
-              className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              className="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all active:scale-95"
             >
-              History {trades.length > 0 && <span className="ml-1 text-xs text-gray-400">({trades.length})</span>}
+              History
+              {trades.length > 0 && <span className="ml-1.5 text-xs text-slate-400 dark:text-slate-500">({trades.length})</span>}
             </button>
+
+            <div className="w-px h-5 bg-slate-200 dark:bg-slate-700" />
+
             <button
               type="button"
               onClick={() => exportTrades(trades)}
               disabled={trades.length === 0}
-              className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
             >
               Export
             </button>
             <button
               type="button"
               onClick={() => importRef.current?.click()}
-              className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              className="px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all active:scale-95"
             >
               Import
             </button>
             <input ref={importRef} type="file" accept=".json" className="hidden" onChange={handleImport} />
+
             <button
               type="button"
               onClick={() => setShowBuilder(true)}
-              className="px-3 py-1.5 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-4 py-1.5 text-sm font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all active:scale-95 shadow-sm"
             >
               + New Trade
             </button>
@@ -201,32 +264,41 @@ export default function App() {
 
         {/* Time-travel banner */}
         {timeTravelling && (
-          <div className="px-6 py-2 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-800 text-xs text-amber-700 dark:text-amber-400">
+          <div className="px-6 py-2.5 bg-amber-50 dark:bg-amber-900/15 border-b border-amber-100 dark:border-amber-900/40 text-xs text-amber-700 dark:text-amber-400 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
             Viewing state as of <strong>{asOfDate}</strong> — {activeTrades.length} of {trades.length} trade{trades.length !== 1 ? 's' : ''} applied
             {hiddenTradeCount > 0 && `, ${hiddenTradeCount} hidden`}.
           </div>
         )}
 
         {importError && (
-          <div className="mx-6 mt-3 px-4 py-2 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700 dark:text-red-300">
+          <div className="mx-6 mt-3 px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900 rounded-xl text-sm text-red-700 dark:text-red-400">
             Import error: {importError}
           </div>
         )}
 
-        <main className="flex-1 overflow-y-auto">
-          <TeamDashboard
-            state={state}
-            team={selectedTeam}
-            trades={activeTrades}
-            salaryEdits={salaryEdits}
-            onSalaryEdit={handleSalaryEdit}
-            removedPlayers={removedPlayers}
-            onRemovePlayer={handleRemovePlayer}
-            onRestorePlayer={handleRestorePlayer}
-            addedPlayerIds={addedPlayerIds}
-            onAddPlayer={handleAddPlayer}
-            onDeleteAddedPlayer={handleDeleteAddedPlayer}
-          />
+        <main className="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-950">
+          {view === 'rumors' ? (
+            <RumorBoard
+              rumors={rumors}
+              onAdd={handleAddRumor}
+              onDelete={handleDeleteRumor}
+            />
+          ) : (
+            <TeamDashboard
+              state={state}
+              team={selectedTeam}
+              trades={activeTrades}
+              salaryEdits={salaryEdits}
+              onSalaryEdit={handleSalaryEdit}
+              removedPlayers={removedPlayers}
+              onRemovePlayer={handleRemovePlayer}
+              onRestorePlayer={handleRestorePlayer}
+              addedPlayerIds={addedPlayerIds}
+              onAddPlayer={handleAddPlayer}
+              onDeleteAddedPlayer={handleDeleteAddedPlayer}
+            />
+          )}
         </main>
       </div>
 

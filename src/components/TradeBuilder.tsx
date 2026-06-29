@@ -52,12 +52,15 @@ function draftToMovement(d: MovementDraft): AssetMovement | null {
   return { asset, from: d.from, to: d.to };
 }
 
+const inputCls = 'text-sm border border-slate-200 dark:border-slate-600 rounded-xl px-3 py-2 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none focus:bg-white dark:focus:bg-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all';
+
 export function TradeBuilder({ state, onSubmit, onCancel }: Props) {
   const [tradeTeams, setTradeTeams] = useState<TeamId[]>([]);
   const [movements, setMovements] = useState<MovementDraft[]>([]);
   const [date, setDate] = useState(today);
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
+  const [historical, setHistorical] = useState(false);
 
   function addTeam(id: TeamId) {
     if (tradeTeams.includes(id)) return;
@@ -83,7 +86,6 @@ export function TradeBuilder({ state, onSubmit, onCancel }: Props) {
       ms.map(m => {
         if (m.id !== id) return m;
         const next = { ...m, ...patch };
-        // Reset value when kind or from changes
         if (patch.kind !== undefined || patch.from !== undefined) next.value = '';
         return next;
       }),
@@ -92,6 +94,23 @@ export function TradeBuilder({ state, onSubmit, onCancel }: Props) {
 
   function submit() {
     setErrors([]);
+
+    if (historical) {
+      if (!description.trim()) {
+        setErrors(['A description is required for historical trades.']);
+        return;
+      }
+      onSubmit({
+        id: `trade-${Date.now()}`,
+        date,
+        teams: tradeTeams,
+        movements: [],
+        description: description.trim(),
+        historical: true,
+      });
+      return;
+    }
+
     const converted = movements.map(draftToMovement);
     if (converted.some(m => m === null)) {
       setErrors(['Every movement needs an asset, a sender, and a receiver.']);
@@ -116,30 +135,68 @@ export function TradeBuilder({ state, onSubmit, onCancel }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 overflow-y-auto py-8 px-4">
-      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-2xl w-full max-w-2xl">
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto py-8 px-4 animate-fade-in"
+      style={{ background: 'rgba(15, 23, 42, 0.5)', backdropFilter: 'blur(4px)' }}
+      onClick={e => { if (e.target === e.currentTarget) onCancel(); }}
+    >
+      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-2xl animate-scale-in">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">New Trade</h2>
-          <button onClick={onCancel} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none">×</button>
+        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-800">
+          <div>
+            <h2 className="text-base font-bold text-slate-900 dark:text-slate-50 tracking-tight">
+              {historical ? 'Log Historical Trade' : 'New Trade'}
+            </h2>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
+              {historical ? "Record-only — won't modify rosters" : 'Apply a trade to current rosters'}
+            </p>
+          </div>
+          <button
+            onClick={onCancel}
+            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 text-lg leading-none transition-all active:scale-95"
+          >
+            ×
+          </button>
         </div>
 
-        <div className="px-6 py-5 space-y-6">
+        <div className="px-6 py-6 space-y-6">
+          {/* Historical toggle */}
+          <label className="flex items-start gap-3 cursor-pointer select-none p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+            <input
+              type="checkbox"
+              checked={historical}
+              onChange={e => setHistorical(e.target.checked)}
+              className="mt-0.5 shrink-0 accent-blue-600 w-4 h-4"
+            />
+            <div>
+              <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">Already reflected in roster</span>
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
+                Logs this trade for reference only — won't modify any roster.
+              </p>
+            </div>
+          </label>
+
           {/* Teams */}
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
+            <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">
               Teams Involved
             </label>
-            <div className="flex flex-wrap gap-2 mb-2">
+            <div className="flex flex-wrap gap-2 mb-3">
               {tradeTeams.map(t => (
-                <span key={t} className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm rounded">
+                <span key={t} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-sm font-semibold rounded-xl">
                   {t}
-                  <button onClick={() => removeTeam(t)} className="text-blue-400 hover:text-blue-700 dark:hover:text-blue-100 text-xs leading-none ml-0.5">×</button>
+                  <button
+                    type="button"
+                    onClick={() => removeTeam(t)}
+                    className="text-blue-400 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-100 text-base leading-none transition-colors"
+                  >
+                    ×
+                  </button>
                 </span>
               ))}
             </div>
             <select
-              className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1.5 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200"
+              className={inputCls}
               value=""
               onChange={e => { if (e.target.value) addTeam(e.target.value as TeamId); }}
             >
@@ -151,9 +208,9 @@ export function TradeBuilder({ state, onSubmit, onCancel }: Props) {
           </div>
 
           {/* Movements */}
-          {tradeTeams.length >= 2 && (
+          {!historical && tradeTeams.length >= 2 && (
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3">
                 Asset Movements
               </label>
               <div className="space-y-2">
@@ -171,7 +228,7 @@ export function TradeBuilder({ state, onSubmit, onCancel }: Props) {
               <button
                 type="button"
                 onClick={() => setMovements(ms => [...ms, makeMovement(tradeTeams)])}
-                className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                className="mt-3 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
               >
                 + Add movement
               </button>
@@ -180,38 +237,48 @@ export function TradeBuilder({ state, onSubmit, onCancel }: Props) {
 
           {/* Date */}
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">
+            <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">
               Trade Date
             </label>
             <input
               type="date"
               value={date}
               onChange={e => setDate(e.target.value)}
-              className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1.5 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200"
+              className={inputCls}
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">
-              Description <span className="normal-case font-normal text-gray-300">(auto-generated if blank)</span>
+            <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">
+              Description{' '}
+              {historical
+                ? <span className="normal-case font-normal text-red-400 tracking-normal">(required)</span>
+                : <span className="normal-case font-normal text-slate-300 dark:text-slate-600 tracking-normal">— auto-generated if blank</span>
+              }
             </label>
             <textarea
               value={description}
               onChange={e => setDescription(e.target.value)}
-              rows={2}
-              placeholder="e.g. BOS sends Tatum to ATL for picks"
-              className="w-full text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1.5 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 resize-none"
+              rows={3}
+              placeholder={historical
+                ? 'e.g. BOS sends Jayson Tatum to OKC for Shai Gilgeous-Alexander and picks'
+                : 'e.g. BOS sends Tatum to ATL for picks'
+              }
+              className={`${inputCls} w-full resize-none`}
             />
           </div>
 
           {/* Errors */}
           {errors.length > 0 && (
-            <div className="rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-3">
-              <p className="text-sm font-medium text-red-700 dark:text-red-300 mb-1">Trade rejected:</p>
-              <ul className="list-disc list-inside space-y-0.5">
+            <div className="rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50 p-4 animate-fade-up">
+              <p className="text-sm font-semibold text-red-700 dark:text-red-400 mb-1.5">Trade rejected</p>
+              <ul className="space-y-0.5">
                 {errors.map((e, i) => (
-                  <li key={i} className="text-sm text-red-600 dark:text-red-400">{e}</li>
+                  <li key={i} className="text-sm text-red-600 dark:text-red-400 flex items-start gap-1.5">
+                    <span className="mt-0.5 shrink-0">·</span>
+                    {e}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -219,21 +286,24 @@ export function TradeBuilder({ state, onSubmit, onCancel }: Props) {
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-end gap-2 px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 rounded-b-2xl">
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+            className="px-4 py-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={submit}
-            disabled={tradeTeams.length < 2 || movements.length === 0}
-            className="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed"
+            disabled={historical
+              ? tradeTeams.length < 2
+              : tradeTeams.length < 2 || movements.length === 0
+            }
+            className="px-5 py-2 text-sm font-semibold bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95 shadow-sm"
           >
-            Submit Trade
+            {historical ? 'Log Trade' : 'Submit Trade'}
           </button>
         </div>
       </div>
@@ -251,28 +321,28 @@ interface RowProps {
   onRemove: () => void;
 }
 
+const selectCls = 'text-sm border border-slate-200 dark:border-slate-600 rounded-lg px-2.5 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all';
+
 function MovementRow({ draft, tradeTeams, state, onChange, onRemove }: RowProps) {
   const fromRoster = teamRoster(state, draft.from);
   const fromPicks  = teamPicks(state, draft.from);
 
   return (
-    <div className="flex flex-wrap items-center gap-2 bg-gray-50 dark:bg-gray-800 rounded-lg px-3 py-2">
-      {/* From */}
+    <div className="flex flex-wrap items-center gap-2 bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700 rounded-xl px-3 py-2.5 animate-fade-up">
       <select
         value={draft.from}
         onChange={e => onChange({ from: e.target.value as TeamId })}
-        className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200"
+        className={selectCls}
       >
         {tradeTeams.map(t => <option key={t} value={t}>{t}</option>)}
       </select>
 
-      <span className="text-gray-400 text-xs">sends</span>
+      <span className="text-slate-400 dark:text-slate-500 text-xs font-medium">sends</span>
 
-      {/* Asset kind */}
       <select
         value={draft.kind}
         onChange={e => onChange({ kind: e.target.value as AssetKind })}
-        className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200"
+        className={selectCls}
       >
         <option value="player">Player</option>
         <option value="pick">Pick</option>
@@ -280,12 +350,11 @@ function MovementRow({ draft, tradeTeams, state, onChange, onRemove }: RowProps)
         <option value="other">Other</option>
       </select>
 
-      {/* Asset value */}
       {draft.kind === 'player' && (
         <select
           value={draft.value}
           onChange={e => onChange({ value: e.target.value })}
-          className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 min-w-32"
+          className={`${selectCls} min-w-36`}
         >
           <option value="">Select player…</option>
           {fromRoster.map(id => (
@@ -297,7 +366,7 @@ function MovementRow({ draft, tradeTeams, state, onChange, onRemove }: RowProps)
         <select
           value={draft.value}
           onChange={e => onChange({ value: e.target.value })}
-          className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 min-w-40"
+          className={`${selectCls} min-w-44`}
         >
           <option value="">Select pick…</option>
           {fromPicks.sort().map(id => {
@@ -316,17 +385,16 @@ function MovementRow({ draft, tradeTeams, state, onChange, onRemove }: RowProps)
           value={draft.value}
           onChange={e => onChange({ value: e.target.value })}
           placeholder={draft.kind === 'cash' ? 'Amount (M)' : 'Note…'}
-          className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 w-32"
+          className={`${selectCls} w-32`}
         />
       )}
 
-      <span className="text-gray-400 text-xs">to</span>
+      <span className="text-slate-400 dark:text-slate-500 text-xs font-medium">to</span>
 
-      {/* To */}
       <select
         value={draft.to}
         onChange={e => onChange({ to: e.target.value as TeamId })}
-        className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200"
+        className={selectCls}
       >
         {tradeTeams.map(t => <option key={t} value={t}>{t}</option>)}
       </select>
@@ -334,7 +402,7 @@ function MovementRow({ draft, tradeTeams, state, onChange, onRemove }: RowProps)
       <button
         type="button"
         onClick={onRemove}
-        className="ml-auto text-gray-300 hover:text-red-500 dark:text-gray-600 dark:hover:text-red-400 text-lg leading-none"
+        className="ml-auto w-7 h-7 rounded-lg flex items-center justify-center text-slate-300 dark:text-slate-600 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 text-lg leading-none transition-all"
       >
         ×
       </button>
