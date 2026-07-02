@@ -24,10 +24,10 @@ function fmtContract(fa: FreeAgent): string {
   return parts.join(' · ');
 }
 
-function groupByTeam(list: FreeAgent[]): Array<{ teamId: string; label: string; players: FreeAgent[] }> {
+function groupByTeam(list: FreeAgent[], teamKey: 'previousTeam' | 'signedTeam' = 'previousTeam'): Array<{ teamId: string; label: string; players: FreeAgent[] }> {
   const map = new Map<string, FreeAgent[]>();
   for (const fa of list) {
-    const key = fa.previousTeam ?? '__none';
+    const key = fa[teamKey] ?? '__none';
     if (!map.has(key)) map.set(key, []);
     map.get(key)!.push(fa);
   }
@@ -192,7 +192,7 @@ export function FreeAgentBoard({ freeAgents, onAdd, onUpdate, onSign, onUnsign, 
             Signed ({filterFa(signed).length})
           </p>
           <div className="space-y-6">
-            {groupByTeam(filterFa(signed)).map(({ teamId, label, players }) => (
+            {groupByTeam(filterFa(signed), 'signedTeam').map(({ teamId, label, players }) => (
               <TeamGroup key={teamId} label={label}>
                 {players.map(fa => (
                   <SignedCard
